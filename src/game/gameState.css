@@ -15,9 +15,9 @@
       background: rgba(75, 1, 1, 0.836);
     }
     &.blue{
-      background: rgb(2, 2, 96);}
+      background: rgb(2, 2, 96);};
     &.gray{
-      background: gray;}
+      background: gray;};
     &.isSelected{
       border-color: #faff64;
       background: #0f3f39;
