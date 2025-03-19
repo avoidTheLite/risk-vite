@@ -1,33 +1,3 @@
-.country {
-    background: #000000;
-    border: 1px solid #999;
-    float: left;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 34px;
-    height: 50px;
-    margin-right: -1px;
-    margin-top: 5px;
-    padding: 0;
-    text-align: center;
-    width: 250px;
-    &.red{
-      background: rgba(75, 1, 1, 0.836);
-    }
-    &.blue{
-      background: rgb(2, 2, 96);};
-    &.gray{
-      background: gray;};
-    &.isSelected{
-      border-color: #faff64;
-      background: #0f3f39;
-    }
-    &.isTargetable{
-      border-color: #faff64;
-      background: #0b0046;
-    }
-}
-  
 button:hover {
   border-color: #faff64;
 }
