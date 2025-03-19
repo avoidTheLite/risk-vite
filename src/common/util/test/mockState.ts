@@ -5,36 +5,36 @@ const response = JSON.parse(JSON.stringify({
         "action": "newGame",
         "gameOptions": {
             "randomAssignment": false,
-            "neutralArmies": false
+            "neutralArmies": true
         },
-        "message": "New game created with save name: VHiMPquAuI - autosave turn 1 for 2 players",
+        "message": "New game created with save name: P3aOkRbgJQ - autosave turn 1 for 2 players",
         "status": "success",
         "gameState": {
-            "saveName": "VHiMPquAuI - autosave turn 1",
-            "id": "VHiMPquAuI",
+            "saveName": "P3aOkRbgJQ - autosave turn 1",
+            "id": "P3aOkRbgJQ",
             "players": [
                 {
                     "id": 0,
                     "name": "Postgres Justin",
                     "cards": [],
                     "color": "red",
-                    "armies": 19
+                    "armies": 26
                 },
                 {
                     "id": 1,
                     "name": "Postgres Joan",
                     "cards": [],
                     "color": "blue",
-                    "armies": 19
+                    "armies": 26
                 }
             ],
             "countries": [
                 {
                     "id": 0,
                     "name": "Alaska",
+                    "color": "red",
                     "armies": 1,
                     "ownerID": 0,
-                    "color": "red",
                     "continent": "North America",
                     "connectedTo": [
                         1,
@@ -45,6 +45,7 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 1,
                     "name": "Alberta",
+                    "color": "blue",
                     "armies": 1,
                     "ownerID": 1,
                     "continent": "North America",
@@ -58,8 +59,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 2,
                     "name": "Central America",
-                    "armies": 1,
-                    "ownerID": 0,
+                    "color": "gray",
+                    "armies": 2,
+                    "ownerID": 99,
                     "continent": "North America",
                     "connectedTo": [
                         3,
@@ -70,8 +72,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 3,
                     "name": "Eastern United States",
+                    "color": "red",
                     "armies": 1,
-                    "ownerID": 1,
+                    "ownerID": 0,
                     "continent": "North America",
                     "connectedTo": [
                         2,
@@ -83,8 +86,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 4,
                     "name": "Greenland",
+                    "color": "blue",
                     "armies": 1,
-                    "ownerID": 0,
+                    "ownerID": 1,
                     "continent": "North America",
                     "connectedTo": [
                         5,
@@ -96,8 +100,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 5,
                     "name": "Northwest Territory",
-                    "armies": 1,
-                    "ownerID": 1,
+                    "color": "gray",
+                    "armies": 2,
+                    "ownerID": 99,
                     "continent": "North America",
                     "connectedTo": [
                         0,
@@ -110,6 +115,7 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 6,
                     "name": "Ontario",
+                    "color": "red",
                     "armies": 1,
                     "ownerID": 0,
                     "continent": "North America",
@@ -124,6 +130,7 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 7,
                     "name": "Quebec",
+                    "color": "blue",
                     "armies": 1,
                     "ownerID": 1,
                     "continent": "North America",
@@ -136,8 +143,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 8,
                     "name": "Western United States",
-                    "armies": 1,
-                    "ownerID": 0,
+                    "color": "gray",
+                    "armies": 2,
+                    "ownerID": 99,
                     "continent": "North America",
                     "connectedTo": [
                         1,
@@ -149,8 +157,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 9,
                     "name": "Argentina",
+                    "color": "red",
                     "armies": 1,
-                    "ownerID": 1,
+                    "ownerID": 0,
                     "continent": "South America",
                     "connectedTo": [
                         10,
@@ -160,8 +169,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 10,
                     "name": "Brazil",
+                    "color": "blue",
                     "armies": 1,
-                    "ownerID": 0,
+                    "ownerID": 1,
                     "continent": "South America",
                     "connectedTo": [
                         9,
@@ -173,8 +183,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 11,
                     "name": "Peru",
-                    "armies": 1,
-                    "ownerID": 1,
+                    "color": "gray",
+                    "armies": 2,
+                    "ownerID": 99,
                     "continent": "South America",
                     "connectedTo": [
                         9,
@@ -185,6 +196,7 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 12,
                     "name": "Venezuela",
+                    "color": "red",
                     "armies": 1,
                     "ownerID": 0,
                     "continent": "South America",
@@ -197,6 +209,7 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 13,
                     "name": "Great Britain",
+                    "color": "blue",
                     "armies": 1,
                     "ownerID": 1,
                     "continent": "Europe",
@@ -210,8 +223,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 14,
                     "name": "Iceland",
-                    "armies": 1,
-                    "ownerID": 0,
+                    "color": "gray",
+                    "armies": 2,
+                    "ownerID": 99,
                     "continent": "Europe",
                     "connectedTo": [
                         4,
@@ -222,8 +236,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 15,
                     "name": "Northern Europe",
+                    "color": "red",
                     "armies": 1,
-                    "ownerID": 1,
+                    "ownerID": 0,
                     "continent": "Europe",
                     "connectedTo": [
                         13,
@@ -236,8 +251,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 16,
                     "name": "Scandinavia",
+                    "color": "blue",
                     "armies": 1,
-                    "ownerID": 0,
+                    "ownerID": 1,
                     "continent": "Europe",
                     "connectedTo": [
                         13,
@@ -249,8 +265,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 17,
                     "name": "Southern Europe",
-                    "armies": 1,
-                    "ownerID": 1,
+                    "color": "gray",
+                    "armies": 2,
+                    "ownerID": 99,
                     "continent": "Europe",
                     "connectedTo": [
                         15,
@@ -264,6 +281,7 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 18,
                     "name": "Ukraine",
+                    "color": "red",
                     "armies": 1,
                     "ownerID": 0,
                     "continent": "Europe",
@@ -279,6 +297,7 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 19,
                     "name": "Western Europe",
+                    "color": "blue",
                     "armies": 1,
                     "ownerID": 1,
                     "continent": "Europe",
@@ -292,8 +311,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 20,
                     "name": "Congo",
-                    "armies": 1,
-                    "ownerID": 0,
+                    "color": "gray",
+                    "armies": 2,
+                    "ownerID": 99,
                     "continent": "Africa",
                     "connectedTo": [
                         21,
@@ -306,8 +326,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 21,
                     "name": "East Africa",
+                    "color": "red",
                     "armies": 1,
-                    "ownerID": 1,
+                    "ownerID": 0,
                     "continent": "Africa",
                     "connectedTo": [
                         20,
@@ -320,8 +341,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 22,
                     "name": "Egypt",
+                    "color": "blue",
                     "armies": 1,
-                    "ownerID": 0,
+                    "ownerID": 1,
                     "continent": "Africa",
                     "connectedTo": [
                         20,
@@ -334,8 +356,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 23,
                     "name": "Madagascar",
-                    "armies": 1,
-                    "ownerID": 1,
+                    "color": "gray",
+                    "armies": 2,
+                    "ownerID": 99,
                     "continent": "Africa",
                     "connectedTo": [
                         20,
@@ -347,6 +370,7 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 24,
                     "name": "North Africa",
+                    "color": "red",
                     "armies": 1,
                     "ownerID": 0,
                     "continent": "Africa",
@@ -360,6 +384,7 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 25,
                     "name": "South Africa",
+                    "color": "blue",
                     "armies": 1,
                     "ownerID": 1,
                     "continent": "Africa",
@@ -373,8 +398,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 26,
                     "name": "Afghanistan",
-                    "armies": 1,
-                    "ownerID": 0,
+                    "color": "gray",
+                    "armies": 2,
+                    "ownerID": 99,
                     "continent": "Asia",
                     "connectedTo": [
                         27,
@@ -386,8 +412,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 27,
                     "name": "China",
+                    "color": "red",
                     "armies": 1,
-                    "ownerID": 1,
+                    "ownerID": 0,
                     "continent": "Asia",
                     "connectedTo": [
                         26,
@@ -401,8 +428,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 28,
                     "name": "India",
+                    "color": "blue",
                     "armies": 1,
-                    "ownerID": 0,
+                    "ownerID": 1,
                     "continent": "Asia",
                     "connectedTo": [
                         27,
@@ -415,8 +443,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 29,
                     "name": "Irkutsk",
-                    "armies": 1,
-                    "ownerID": 1,
+                    "color": "gray",
+                    "armies": 2,
+                    "ownerID": 99,
                     "continent": "Asia",
                     "connectedTo": [
                         26,
@@ -428,6 +457,7 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 30,
                     "name": "Japan",
+                    "color": "red",
                     "armies": 1,
                     "ownerID": 0,
                     "continent": "Asia",
@@ -439,6 +469,7 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 31,
                     "name": "Kamchatka",
+                    "color": "blue",
                     "armies": 1,
                     "ownerID": 1,
                     "continent": "Asia",
@@ -454,8 +485,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 32,
                     "name": "Middle East",
-                    "armies": 1,
-                    "ownerID": 0,
+                    "color": "gray",
+                    "armies": 2,
+                    "ownerID": 99,
                     "continent": "Asia",
                     "connectedTo": [
                         28,
@@ -467,8 +499,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 33,
                     "name": "Mongolia",
+                    "color": "red",
                     "armies": 1,
-                    "ownerID": 1,
+                    "ownerID": 0,
                     "continent": "Asia",
                     "connectedTo": [
                         26,
@@ -480,8 +513,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 34,
                     "name": "Siberia",
+                    "color": "blue",
                     "armies": 1,
-                    "ownerID": 0,
+                    "ownerID": 1,
                     "continent": "Asia",
                     "connectedTo": [
                         27,
@@ -494,8 +528,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 35,
                     "name": "Ural",
-                    "armies": 1,
-                    "ownerID": 1,
+                    "color": "gray",
+                    "armies": 2,
+                    "ownerID": 99,
                     "continent": "Asia",
                     "connectedTo": [
                         26,
@@ -506,6 +541,7 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 36,
                     "name": "Yakutsk",
+                    "color": "red",
                     "armies": 1,
                     "ownerID": 0,
                     "continent": "Asia",
@@ -518,6 +554,7 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 37,
                     "name": "Siam",
+                    "color": "blue",
                     "armies": 1,
                     "ownerID": 1,
                     "continent": "Asia",
@@ -530,8 +567,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 38,
                     "name": "Eastern Australia",
-                    "armies": 1,
-                    "ownerID": 0,
+                    "color": "gray",
+                    "armies": 2,
+                    "ownerID": 99,
                     "continent": "Australia",
                     "connectedTo": [
                         40,
@@ -541,8 +579,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 39,
                     "name": "Indonesia",
+                    "color": "red",
                     "armies": 1,
-                    "ownerID": 1,
+                    "ownerID": 0,
                     "continent": "Australia",
                     "connectedTo": [
                         37,
@@ -553,8 +592,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 40,
                     "name": "New Guinea",
+                    "color": "blue",
                     "armies": 1,
-                    "ownerID": 0,
+                    "ownerID": 1,
                     "continent": "Australia",
                     "connectedTo": [
                         38,
@@ -565,8 +605,9 @@ const response = JSON.parse(JSON.stringify({
                 {
                     "id": 41,
                     "name": "Western Australia",
-                    "armies": 1,
-                    "ownerID": 1,
+                    "color": "gray",
+                    "armies": 2,
+                    "ownerID": 99,
                     "continent": "Australia",
                     "connectedTo": [
                         37,
