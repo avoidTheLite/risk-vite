@@ -5,11 +5,11 @@ import './DeployDialog.css'
 interface AttackDialog {
     id: number;
     isVisible: boolean;
-    confirmAttack: () => void;
+    confirmAttack: (troopCountq: number) => void;
 }
 interface AttackDialogProps {
     isVisible: boolean
-    confirmAttack: () => void
+    confirmAttack: (troopCountq: number) => void
 }
 
 const AttackDialog: React.FC<AttackDialogProps> = ({isVisible, confirmAttack}) => {

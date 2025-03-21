@@ -9,6 +9,7 @@ import DeployDialog from "../components/Dialog/DeployDialog";
 import AttackDialog from "../components/Dialog/AttackDialog";
 import useWebsocket from "../common/util/useWebsocket";
 import transformCountry from "../common/util/transformCountry";
+import EndTurnButton from "../components/EndTurn/EndTurnButton";
 
 // temporary turnData until ws is connected:
 const initialCountries = response.data.gameState.countries
@@ -67,6 +68,14 @@ export default function GameState() {
             } else {
                 return true
             }
+        }
+    }
+
+    const isEqualTurn = (a: Turn, b: Turn) => {
+        if (a.turn !== b.turn || a.phase !== b.phase || a.turnTracker.phase !== b.turnTracker.phase || a.activePlayerIndex !== b.activePlayerIndex) {
+            return false
+        } else {
+            return true
         }
     }
 
@@ -131,7 +140,10 @@ export default function GameState() {
 
 
     function confirmAttack(troopCount: number) {
-        if (attackingCountry.current && defendingCountry.current) {
+        console.log('trying to attack')
+        console.log(`attacking country: ${attackingCountry.current}, defending country: ${defendingCountry.current}`)
+        if (attackingCountry.current != null && attackingCountry.current != undefined &&
+            defendingCountry.current != null && defendingCountry.current != undefined) {
             console.log("Attacking " + countries[defendingCountry.current].name);
             const attackMessage = {
                 action: "attack",
@@ -146,7 +158,21 @@ export default function GameState() {
             }
             sendMessage(attackMessage);
             setAttackDialogVisible(false);
+        } else {
+            console.log("No country selected");
         }
+        
+    }
+
+    function endTurn() {
+        console.log("ending turn");
+        const endTurnMessage = {
+            action: "endTurn",
+            message: "End Turn",
+            playerID: gameState.activePlayerIndex,
+            saveName: gameState.saveName
+        }
+        sendMessage(endTurnMessage);
     }
 
     const countryMethods: CountryMethods = useMemo(() => ( {
@@ -166,21 +192,31 @@ export default function GameState() {
                 setCountries(newCountries);
             }
             setGlobe((prev) => isEqualCountries(prev.countries, newCountries) ? prev : ({...prev, countries: newCountries}));
+            const newTurnData: Turn = {
+                turn: gameState.turn,
+                turnTracker: gameState.turnTracker,
+                phase: gameState.phase,
+                activePlayerIndex: gameState.activePlayerIndex,
+            }
+            setTurnData((prev) => isEqualTurn(prev, newTurnData) ? prev : newTurnData);
         }
-    }, [gameState, countryMethods]);
+    }, [gameState, countryMethods, countries, turnData]);
 
 
     return (
         <div className="globe" key = {globe.id}>
+            <EndTurnButton 
+                endTurn={endTurn} 
+            />
             <Globe 
-            id={globe.id}
-            name={globe.name}
-            playerMax={globe.playerMax}
-            countries={countries}
-            clearTargets={clearTargets}
-            highlightTargets={highlightTargets}
-            updateCountries={updateCountries} 
-            initiateAttack={initiateAttack}
+                id={globe.id}
+                name={globe.name}
+                playerMax={globe.playerMax}
+                countries={countries}
+                clearTargets={clearTargets}
+                highlightTargets={highlightTargets}
+                updateCountries={updateCountries} 
+                initiateAttack={initiateAttack}
             />
             <div>
             <DeployDialog

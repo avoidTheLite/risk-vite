@@ -10,8 +10,8 @@ const response = JSON.parse(JSON.stringify({
         "message": "New game created with save name: P3aOkRbgJQ - autosave turn 1 for 2 players",
         "status": "success",
         "gameState": {
-            "saveName": "P3aOkRbgJQ - autosave turn 1",
-            "id": "P3aOkRbgJQ",
+            "saveName": "aL8ydh98gA - autosave turn 1",
+            "id": "aL8ydh98gA",
             "players": [
                 {
                     "id": 0,
