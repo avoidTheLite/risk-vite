@@ -1,33 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import riskLogo from './assets/risk.png'
 import './App.css'
 import GameState from './game/gameState'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
+        <a href="https://www.hasbro.com/common/instruct/risk.pdf" target="_blank">
+          <img src={riskLogo} className="logo" alt="Risk logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
+      <h1>Risk: The Board Game</h1>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        Click the Risk Logo above to read the rules of the game
       </p>
       <GameState>
       </GameState>

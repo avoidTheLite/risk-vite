@@ -1,21 +1,24 @@
 import "./Country.css"
-
-interface Country {
-    name: string;
-    id: number;
-    color: string;
-    armies: number;
+import { CountryData } from "../../common/types"
+interface Country extends CountryData {
     isSelected: boolean;
     isTargetable: boolean;
     highlightTargets: (id: number ) => Country[];
     clearTargets: () => Country[];
-    updateGameState: (newCountries: Country[]) => void;
+    updateCountries: (newCountries: Country[]) => void;
+    initiateAttack: (id: number) => void
+}
+
+export type CountryMethods = {
+    highlightTargets: (id: number ) => Country[];
+    clearTargets: () => Country[];
+    updateCountries: (newCountries: Country[]) => void;
+    initiateAttack: (id: number) => void
 }
 
 
-function Country({
 
-    
+function Country({
     name,
     id,
     color,
@@ -24,7 +27,8 @@ function Country({
     isTargetable,
     clearTargets,
     highlightTargets,
-    updateGameState}: {
+    updateCountries,
+    initiateAttack,}: {
         name: string,
         id: number,
         color: string,
@@ -33,23 +37,22 @@ function Country({
         isTargetable: boolean,
         clearTargets: () => Country[],
         highlightTargets: (id: number ) => Country[],
-        updateGameState: (newCountries: Country[]) => void}) {
-
-
+        updateCountries: (newCountries: Country[]) => void,
+        initiateAttack: (id: number) => void }) {
     function selectCountry(id: number) {
-        console.log(id)
-        console.log(isSelected)
         if (isSelected) {
             const targetableCountries = clearTargets();
             targetableCountries[id].isSelected = false;
-            updateGameState(targetableCountries);
+            updateCountries(targetableCountries);
         } else {
+            if (isTargetable) {
+                initiateAttack(id);
 
+            } else {
             const targetableCountries = highlightTargets(id);
             targetableCountries[id].isSelected = true;
-            updateGameState(targetableCountries);
-        }
-        
+            updateCountries(targetableCountries);
+        }}
     }
 
 
