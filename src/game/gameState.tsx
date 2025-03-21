@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import response from "../common/util/test/mockState";
 import mockAvailableCommands from "../common/util/test/mockAvailableCommands-deploy";
 import "./gameState.css";
@@ -43,6 +43,8 @@ export default function GameState() {
     const [globe, setGlobe] = useState(initialGlobe);
     const [deployDialogVisible, setDeployDialogVisible] = useState(false);
     const [deployTarget, setDeployTarget] = useState(9000);
+    const attackingCountry = useRef<number>(null);
+    const defendingCountry = useRef<number>(null);
     const [attackDialogVisible, setAttackDialogVisible] = useState(false);
 
     
@@ -99,17 +101,6 @@ export default function GameState() {
         return targetableCountries
     }, [turnData, countries, clearTargets]);
 
-    const initiateAttack = useCallback((id: number) => {
-        let attackingCountry: number;
-        const defendingCountry: number = id;
-        let attackingTroopCount: number;
-        for (let i = 0; i < countries.length; i++) {
-            if (countries[i].isSelected == true) {
-                attackingCountry = i;
-            }
-        }
-        setAttackDialogVisible(true);
-    }, [countries]);
 
     
     function confirmDeploy(id: number, troopCount: number) {
@@ -125,10 +116,37 @@ export default function GameState() {
             saveName: gameState.saveName
         }
         sendMessage(deployMessage);
+        setDeployDialogVisible(false);
     }
 
-    function confirmAttack() {
-        // Call attack function and route to websocket
+    const initiateAttack = useCallback((id: number) => {
+        defendingCountry.current = id;
+        for (let i = 0; i < countries.length; i++) {
+            if (countries[i].isSelected == true) {
+                attackingCountry.current = i;
+            }
+        }
+        setAttackDialogVisible(true);
+    }, [countries]);
+
+
+    function confirmAttack(troopCount: number) {
+        if (attackingCountry.current && defendingCountry.current) {
+            console.log("Attacking " + countries[defendingCountry.current].name);
+            const attackMessage = {
+                action: "attack",
+                message: "Attacking " + countries[defendingCountry.current].name + " from " + countries[attackingCountry.current].name,
+                playerID: gameState.activePlayerIndex,
+                engagement: {
+                    attackingCountry: attackingCountry.current,
+                    defendingCountry: defendingCountry.current,
+                    attackingTroopCount: troopCount
+                },
+                saveName: gameState.saveName
+            }
+            sendMessage(attackMessage);
+            setAttackDialogVisible(false);
+        }
     }
 
     const countryMethods: CountryMethods = useMemo(() => ( {

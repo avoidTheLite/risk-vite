@@ -20,7 +20,8 @@ export default function useWebsocket() {
                 if (event.data == '...connected to risk server') {
                     console.log('...connected to risk server');}
                     else {
-                        const newGameState: GameData = JSON.parse(event.data.gameState);
+                        console.log(event.data);
+                        const newGameState: GameData = JSON.parse(event.data).data.gameState;
                         setGameState(newGameState);
                 }
             };

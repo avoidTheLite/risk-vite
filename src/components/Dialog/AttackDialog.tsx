@@ -20,7 +20,7 @@ const AttackDialog: React.FC<AttackDialogProps> = ({isVisible, confirmAttack}) =
         <dialog className={`dialog ${isVisible ? 'visible' : 'hidden'}`}>
             Attack Dialog - How many armies: {troopCount}? <br/> <br/>
             <input type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
-            <button onClick={confirmAttack}>Attack</button>
+            <button onClick={() => confirmAttack(troopCount)}>Attack</button>
         </dialog>
     )
 }
