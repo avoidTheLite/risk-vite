@@ -1,96 +1,69 @@
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
-import response from "../common/util/test/mockState";
+// import response from "../common/util/test/mockState";
 import mockAvailableCommands from "../common/util/test/mockAvailableCommands-deploy";
 import "./gameState.css";
 import { default as Country, CountryMethods } from "../components/Country/Country";
 import Globe from "../components/Globe/Globe";
-import { Turn, CountryData } from "../common/types";
+import { Turn, CountryData, GameOptions, Player, GameData, WsActions } from "../common/types";
 import DeployDialog from "../components/Dialog/DeployDialog";
 import AttackDialog from "../components/Dialog/AttackDialog";
 import useWebsocket from "../common/util/useWebsocket";
 import transformCountry from "../common/util/transformCountry";
-import EndTurnButton from "../components/EndTurn/EndTurnButton";
-
-// temporary turnData until ws is connected:
-const initialCountries = response.data.gameState.countries
-for (let i = 0; i < initialCountries.length; i++) {
-    initialCountries[i].isSelected = false;
-    initialCountries[i].isTargetable = false;
-}
+import EndTurnButton from "../components/Buttons/EndTurnButton";
+import NewGameButton from "../components/Buttons/NewGameButton";
+import NewGameDialog from "../components/Dialog/NewGameDialog";
+import { useGameReady } from "../hooks/useGameReady";
+import { isEqualCountries, isEqualTurn, isEqualGlobe, isEqualPlayers } from "../common/util/deepEqualityCheck";
+import ConquerDialog from "../components/Dialog/ConquerDialog";
 
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
-// temporary turnData until ws is connected:
-const initialTurnData = {
-    turn: response.data.gameState.turn,
-    turnTracker: response.data.gameState.turnTracker,
-    phase: response.data.gameState.phase,
-    activePlayerIndex: response.data.gameState.activePlayerIndex,
-}
-
-// temporary turnData until ws is connected:
-const initialGlobe: Globe = {
-    id:'defaultGlobeID',
-    name: 'Earth',
-    playerMax: 6,
-    countries: initialCountries
-}
-
 export default function GameState() {
     const { gameState, sendMessage } = useWebsocket();
-    const [countries, setCountries] = useState(initialCountries);
-    const [turnData, setTurnData] = useState(initialTurnData)
+    const [countries, setCountries] = useState<Country[] | null>(null);
+    const [turnData, setTurnData] = useState<Turn | null>(null)
     const [availableCommands, setAvailableCommands] = useState(initialAvailableCommands);
-    const [globe, setGlobe] = useState(initialGlobe);
+    const [globe, setGlobe] = useState<Globe | null>(null);
     const [deployDialogVisible, setDeployDialogVisible] = useState(false);
-    const [deployTarget, setDeployTarget] = useState(9000);
-    const attackingCountry = useRef<number>(null);
-    const defendingCountry = useRef<number>(null);
+    const [deployTarget, setDeployTarget] = useState<number>(-1);
+    const attackingCountry = useRef<number | null>(null);
+    const defendingCountry = useRef<number | null>(null);
     const [attackDialogVisible, setAttackDialogVisible] = useState(false);
+    const [newGameDialogVisible, setNewGameDialogVisible] = useState(false);
+    const [conquerDialogVisible, setConquerDialogVisible] = useState(false);
+    const { isReady, safeGameState, safeGlobe } = useGameReady(gameState, globe);
 
     
     const updateCountries = useCallback((newCountries: Country[]) => {
         setCountries(newCountries);
     }, []);
 
-    function updateTurnData(newTurnData: Turn) {
-        setTurnData(newTurnData);
-    }
-
     function updateAvailableCommands(newAvailableCommands: string[]) {
         setAvailableCommands(newAvailableCommands);
     }
 
-    const isEqualCountries = (a: Country[], b: Country[]) => {
-        for (let i = 0; i < a.length; i++) {
-            if (a[i].id !== b[i].id || a[i].ownerID !== b[i].ownerID || a[i].armies !== b[i].armies) {
-                return false   
-            } else {
-                return true
-            }
-        }
-    }
-
-    const isEqualTurn = (a: Turn, b: Turn) => {
-        if (a.turn !== b.turn || a.phase !== b.phase || a.turnTracker.phase !== b.turnTracker.phase || a.activePlayerIndex !== b.activePlayerIndex) {
-            return false
-        } else {
-            return true
-        }
+    function hasStartedGame(gameState: GameData | null, globe: Globe | null): gameState is GameData & {
+        countries: Country[];
+        activePlayerIndex: number;
+        saveName: string;
+    }{
+        return !!gameState && Array.isArray(gameState.countries) && gameState.countries.length > 0 && !!globe;
     }
 
     const clearTargets = useCallback(() => {
-        const targetableCountries: Country[] = countries.map((country: Country) => ({
+        if(!isReady || !safeGameState) return [];
+        const targetableCountries: Country[] = safeGameState.countries.map((country: Country) => ({
             ...country,
             isTargetable: false,
             isSelected: false}
         ));
         setAttackDialogVisible(false);
         return targetableCountries
-    }, [countries]);
+    }, [isReady, safeGameState]);
 
     const highlightTargets = useCallback((id: number) => {
         let targetableCountries: Country[]
+        if (!countries || !turnData) return [];
         if (turnData.phase === "deploy" || turnData.turnTracker.phase === "deploy") {
             targetableCountries = clearTargets()
             setDeployTarget(id);
@@ -109,13 +82,12 @@ export default function GameState() {
         
         return targetableCountries
     }, [turnData, countries, clearTargets]);
-
-
     
     function confirmDeploy(id: number, troopCount: number) {
+        if (!countries || !gameState) return;
         console.log("Deploying troops to " + countries[id].name);
         const deployMessage = {
-            action: "deploy",
+            action: "deploy" as WsActions,
             message: "Deploying troops to " + countries[id].name,
             playerID: gameState.activePlayerIndex,
             deployment: {
@@ -129,6 +101,7 @@ export default function GameState() {
     }
 
     const initiateAttack = useCallback((id: number) => {
+        if (!countries) return;
         defendingCountry.current = id;
         for (let i = 0; i < countries.length; i++) {
             if (countries[i].isSelected == true) {
@@ -140,13 +113,14 @@ export default function GameState() {
 
 
     function confirmAttack(troopCount: number) {
+        if (!countries || !gameState) return;
         console.log('trying to attack')
         console.log(`attacking country: ${attackingCountry.current}, defending country: ${defendingCountry.current}`)
         if (attackingCountry.current != null && attackingCountry.current != undefined &&
             defendingCountry.current != null && defendingCountry.current != undefined) {
             console.log("Attacking " + countries[defendingCountry.current].name);
             const attackMessage = {
-                action: "attack",
+                action: "attack" as WsActions,
                 message: "Attacking " + countries[defendingCountry.current].name + " from " + countries[attackingCountry.current].name,
                 playerID: gameState.activePlayerIndex,
                 engagement: {
@@ -163,11 +137,54 @@ export default function GameState() {
         }
         
     }
+    function confirmConquer(troopCount: number) {
+        if (!countries || !gameState) return;
+        console.log('trying to conquer')
+        console.log(`attacking country: ${attackingCountry.current}, defending country: ${defendingCountry.current}`)
+        if (attackingCountry.current != null && attackingCountry.current != undefined &&
+            defendingCountry.current != null && defendingCountry.current != undefined) {
+            console.log("Conquering " + countries[defendingCountry.current].name);
+            const conquerMessage = {
+                action: "conquer" as WsActions,
+                message: "Conquering " + countries[defendingCountry.current].name + " from " + countries[attackingCountry.current].name,
+                playerID: gameState.activePlayerIndex,
+                engagement: {
+                    attackingCountry: attackingCountry.current,
+                    defendingCountry: defendingCountry.current,
+                    attackingTroopCount: troopCount,
+                    conquered: true
+                },
+                saveName: gameState.saveName
+            }
+            sendMessage(conquerMessage);
+            setAttackDialogVisible(false);
+        } else {
+            console.log("No country selected");                        
+        }
+    }
+
+    function newGame() {
+        setNewGameDialogVisible(true);
+    }
+
+    function confirmNewGame(gameOptions: GameOptions, players: Player[]) {
+        console.log('starting new game')
+        const newGameMessage = {
+            action: "newGame" as WsActions,
+            message: "New Game",
+            players: players,
+            globeID: "defaultGlobeID",
+            gameOptions: gameOptions
+        }
+        sendMessage(newGameMessage);
+        setNewGameDialogVisible(false);
+    }
 
     function endTurn() {
+        if (!hasStartedGame(gameState, globe)) return;
         console.log("ending turn");
         const endTurnMessage = {
-            action: "endTurn",
+            action: "endTurn" as WsActions,
             message: "End Turn",
             playerID: gameState.activePlayerIndex,
             saveName: gameState.saveName
@@ -182,36 +199,90 @@ export default function GameState() {
         initiateAttack
     }), [highlightTargets, clearTargets, updateCountries, initiateAttack]);
 
+    function cancel(): void {
+        setDeployDialogVisible(false);
+        setAttackDialogVisible(false);
+        setNewGameDialogVisible(false);
+        setConquerDialogVisible(false);
+    }
+
     useEffect(() => {
         
-        if (gameState && gameState.countries) {
-            const newCountries: Country[] = gameState.countries.map((country: CountryData) => 
-                transformCountry(country, countryMethods)  
-            );
-            if (!isEqualCountries(newCountries, countries)) {
-                setCountries(newCountries);
-            }
-            setGlobe((prev) => isEqualCountries(prev.countries, newCountries) ? prev : ({...prev, countries: newCountries}));
-            const newTurnData: Turn = {
-                turn: gameState.turn,
-                turnTracker: gameState.turnTracker,
-                phase: gameState.phase,
-                activePlayerIndex: gameState.activePlayerIndex,
-            }
-            setTurnData((prev) => isEqualTurn(prev, newTurnData) ? prev : newTurnData);
+        if (!gameState || !gameState.countries) return;
+        const newCountries: Country[] = gameState.countries.map((country: CountryData) => 
+            transformCountry(country, countryMethods)  
+        );
+        const newTurnData: Turn = {
+            turn: {...gameState}.turn,
+            turnTracker: {...gameState.turnTracker},
+            phase: {...gameState}.phase,
+            activePlayerIndex: {...gameState}.activePlayerIndex,
         }
+        const newPlayers = {...gameState.players};
+        const newGlobe: Globe = {
+            id: gameState.globeID,
+            name: 'Earth',
+            playerMax: 6,
+            turnData: newTurnData,
+            players: newPlayers,
+            countries: newCountries
+        }
+        if (!turnData || !isEqualTurn(turnData, newTurnData)) {
+            setTurnData({...newTurnData});
+        } 
+        if (!countries || !isEqualCountries(newCountries, countries)) {
+            setCountries([...newCountries]);
+            } 
+        if (!globe || !isEqualGlobe(globe, newGlobe)) {
+            setGlobe(newGlobe);
+        }
+        if (gameState.turnTracker.phase === 'conquer') {
+            setConquerDialogVisible(true);
+        }
+        if (gameState.turnTracker.phase === 'combat') {
+            setConquerDialogVisible(false);
+        }
+
     }, [gameState, countryMethods, countries, turnData]);
 
-
+    if (!isReady || !safeGameState || !safeGlobe || !Array.isArray(countries)) {
+        console.log(`countries: ${JSON.stringify(countries)}`);
+        return (
+            <>
+                <NewGameDialog
+                    isVisible={newGameDialogVisible}
+                    confirmNewGame={confirmNewGame}
+                    cancel={cancel}
+                />
+                <NewGameButton 
+                    newGame={newGame}
+                    
+                />
+                <div>Waiting to Start game...</div>
+            </>
+        );
+    } else {
     return (
-        <div className="globe" key = {globe.id}>
+        <div className="globe" key = {safeGlobe.id}>
+            <NewGameButton 
+                newGame={newGame}
+            />
+            <NewGameDialog
+                isVisible={newGameDialogVisible}
+                confirmNewGame={confirmNewGame}
+                cancel={cancel}
+            />
             <EndTurnButton 
                 endTurn={endTurn} 
-            />
+            /> <br/>
+            GameID = {safeGameState.id} <br/>
+            Save Name = {safeGameState.saveName} <br/>
             <Globe 
-                id={globe.id}
-                name={globe.name}
-                playerMax={globe.playerMax}
+                id={safeGlobe.id}
+                name={safeGlobe.name}
+                playerMax={safeGlobe.playerMax}
+                turnData={safeGlobe.turnData}
+                players={safeGameState.players}
                 countries={countries}
                 clearTargets={clearTargets}
                 highlightTargets={highlightTargets}
@@ -222,6 +293,7 @@ export default function GameState() {
             <DeployDialog
                 isVisible={deployDialogVisible}
                 confirmDeploy={confirmDeploy}
+                cancel={cancel}
                 deployTarget={deployTarget}
                 />
             </div>
@@ -229,13 +301,16 @@ export default function GameState() {
             <AttackDialog
                 isVisible={attackDialogVisible}
                 confirmAttack={confirmAttack}
-                />
+                cancel={cancel}
+            />
+            <ConquerDialog 
+                isVisible={conquerDialogVisible}
+                confirmConquer={confirmConquer}
+                cancel={cancel}
+            />
             </div>
         </div>
-        
     )
-
-
-}
+}}
 
 

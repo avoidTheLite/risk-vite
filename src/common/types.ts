@@ -3,9 +3,9 @@ export interface CountryData {
     name: string;
     continent: string;
     connectedTo: number[];
-    ownerID?: number;
-    color?: string;
-    armies?: number;
+    ownerID: number;
+    color: string;
+    armies: number;
 }
 
 export interface GameData {
@@ -142,6 +142,21 @@ export interface WsRequest {
         gameOptions?: GameOptions;
         cards?: Card[];
     }
+}
+
+export interface WsRequestData {
+    gameID?: string;
+    action: WsActions;
+    message: string;
+    players?: Player[];
+    globeID?: string;
+    saveName?: string;
+    playerID?: number;
+    deployment?: Deployment;
+    movement?: Movement;
+    engagement?: Engagement;
+    gameOptions?: GameOptions;
+    cards?: Card[];
 }
 
 export interface WsResponse {

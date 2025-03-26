@@ -1,35 +1,40 @@
 import React from "react";
 import Country from "../Country/Country";
+import { Turn, Player } from "../../common/types";
 
-// interface Continent {
-//     id: string;
-//     name: string;
-//     countries: number[];
-//     armies: number;
-// }
 
 interface Globe {
     id: string;
     name: string;
     playerMax: number;
+    turnData: Turn;
+    players: Player[];
     countries: Country[];
 }
 interface GlobeProps {
     id: string;
     name: string;
     playerMax: number;
+    turnData: Turn;
+    players: Player[];
     countries: Country[];
     highlightTargets: (id: number ) => Country[];
     clearTargets: () => Country[];
     updateCountries: (newCountries: Country[]) => void;
     initiateAttack: (id: number) => void;
-    // continenets: Continent[];
 }
-
-const Globe: React.FC<GlobeProps> = ({name, playerMax, countries, clearTargets, highlightTargets, updateCountries, initiateAttack}) => {
+    
+const Globe: React.FC<GlobeProps> = ({name, playerMax, turnData, players, countries, clearTargets, highlightTargets, updateCountries, initiateAttack}) => {
     return (
         <div>
-            Globe Name = {name} | Max Players = {playerMax}
+            Globe Name = {name} | Max Players = {playerMax} <br/>
+            Turn = {turnData.turn} | Game Phase = {turnData.phase} <br/>
+            Active Player = {turnData.activePlayerIndex} | Turn Phase = {turnData.turnTracker.phase} <br/> <hr/>
+            Players in Game {players.map((player) => (
+                <p key={player.id}>
+                    {player.name} | {player.color} | Reinforcements Available: {player.armies}
+                </p>
+            ))}
             <p>
             {countries.map((country) => (
                 <Country

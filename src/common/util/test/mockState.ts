@@ -7,11 +7,11 @@ const response = JSON.parse(JSON.stringify({
             "randomAssignment": false,
             "neutralArmies": true
         },
-        "message": "New game created with save name: P3aOkRbgJQ - autosave turn 1 for 2 players",
+        "message": "New game created with save name: eCelIwHPUg - autosave turn 1 for 2 players",
         "status": "success",
         "gameState": {
-            "saveName": "aL8ydh98gA - autosave turn 1",
-            "id": "aL8ydh98gA",
+            "saveName": "eCelIwHPUg - autosave turn 1",
+            "id": "eCelIwHPUg",
             "players": [
                 {
                     "id": 0,

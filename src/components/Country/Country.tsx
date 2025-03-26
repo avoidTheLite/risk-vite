@@ -60,7 +60,7 @@ function Country({
     return (
         <>
             <button className={`country ${isSelected ? 'isSelected' :isTargetable ? 'istargetable' : color}`} onClick={() => selectCountry(id)}>
-                <p>{id}: {name} Armies = {armies}</p>
+                {id}: {name} | Armies = {armies}
             </button>
         </>
     );

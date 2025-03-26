@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { GameData } from "../types";
-import response from "../util/test/mockState";
+import { GameData, WsRequestData } from "../types";
 
 
 
 const WS_URL = "ws://localhost:8080";
 
 export default function useWebsocket() {
-    const [gameState, setGameState] = useState<GameData>(response.data.gameState);
+    const [gameState, setGameState] = useState<GameData | null>(null);
     const ws = useRef<WebSocket | null>(null);
 
     useEffect(() => {
@@ -20,9 +19,13 @@ export default function useWebsocket() {
                 if (event.data == '...connected to risk server') {
                     console.log('...connected to risk server');}
                     else {
-                        console.log(event.data);
-                        const newGameState: GameData = JSON.parse(event.data).data.gameState;
-                        setGameState(newGameState);
+                        if (!event.data || JSON.parse(event.data).data.status == "failure") {
+                            console.log('failure');
+                        } else {
+                            console.log(JSON.parse(event.data).data);
+                            const newGameState: GameData = JSON.parse(event.data).data.gameState;
+                            setGameState(newGameState);
+                        }
                 }
             };
 
@@ -43,7 +46,7 @@ export default function useWebsocket() {
         }
         }, []);
 
-        const sendMessage = (data) => {
+        const sendMessage = (data: WsRequestData) => {
             if (ws.current?.readyState === WebSocket.OPEN) {
                 ws.current.send(JSON.stringify({ data }));
             } else {
