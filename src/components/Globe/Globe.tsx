@@ -22,9 +22,10 @@ interface GlobeProps {
     clearTargets: () => Country[];
     updateCountries: (newCountries: Country[]) => void;
     initiateAttack: (id: number) => void;
+    initiateMove: (id: number) => void;
 }
     
-const Globe: React.FC<GlobeProps> = ({name, playerMax, turnData, players, countries, clearTargets, highlightTargets, updateCountries, initiateAttack}) => {
+const Globe: React.FC<GlobeProps> = ({name, playerMax, turnData, players, countries, clearTargets, highlightTargets, updateCountries, initiateAttack, initiateMove}) => {
     return (
         <div>
             Globe Name = {name} | Max Players = {playerMax} <br/>
@@ -43,12 +44,15 @@ const Globe: React.FC<GlobeProps> = ({name, playerMax, turnData, players, countr
                 id={country.id}
                 color={country.color}
                 armies={country.armies}
+                ownerID={country.ownerID}
+                activePlayerIndex={turnData.activePlayerIndex}
                 isSelected={country.isSelected}
                 isTargetable={country.isTargetable}
                 clearTargets={clearTargets}
                 highlightTargets={highlightTargets}
                 updateCountries={updateCountries}
                 initiateAttack={initiateAttack}
+                initiateMove={initiateMove}
                 />
             ))}
             </p>

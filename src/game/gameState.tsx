@@ -15,6 +15,7 @@ import NewGameDialog from "../components/Dialog/NewGameDialog";
 import { useGameReady } from "../hooks/useGameReady";
 import { isEqualCountries, isEqualTurn, isEqualGlobe, isEqualPlayers } from "../common/util/deepEqualityCheck";
 import ConquerDialog from "../components/Dialog/ConquerDialog";
+import MoveDialog from "../components/Dialog/MoveDialog";
 
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
@@ -28,9 +29,12 @@ export default function GameState() {
     const [deployTarget, setDeployTarget] = useState<number>(-1);
     const attackingCountry = useRef<number | null>(null);
     const defendingCountry = useRef<number | null>(null);
+    const sourceCountry = useRef<number | null>(null);
+    const targetCountry = useRef<number | null>(null);
     const [attackDialogVisible, setAttackDialogVisible] = useState(false);
     const [newGameDialogVisible, setNewGameDialogVisible] = useState(false);
     const [conquerDialogVisible, setConquerDialogVisible] = useState(false);
+    const [moveDialogVisible, setMoveDialogVisible] = useState(false);
     const { isReady, safeGameState, safeGlobe } = useGameReady(gameState, globe);
 
     
@@ -163,6 +167,40 @@ export default function GameState() {
         }
     }
 
+    function initiateMove(id: number) {
+        if (!countries) return;
+        targetCountry.current = id;
+        for (let i = 0; i < countries.length; i++) {
+            if (countries[i].isSelected == true) {
+                sourceCountry.current = i;
+            }
+        }
+        setMoveDialogVisible(true);
+    }
+
+    function confirmMove(troopCount: number) {
+        if (!countries || !gameState) return;
+        console.log('trying to move')
+        console.log(`attacking country: ${attackingCountry.current}, defending country: ${defendingCountry.current}`)
+        if (sourceCountry.current != null && sourceCountry.current != undefined &&
+            targetCountry.current != null && targetCountry.current != undefined) {
+            console.log("Moving " + countries[targetCountry.current].name);
+            const moveMessage = {
+                action: "move" as WsActions,
+                message: "Moving " + countries[targetCountry.current].name + " from " + countries[sourceCountry.current].name,
+                playerID: gameState.activePlayerIndex,
+                movement: {
+                    sourceCountry: sourceCountry.current,
+                    targetCountry: targetCountry.current,
+                    armies: troopCount
+                },
+                saveName: gameState.saveName
+            }
+            sendMessage(moveMessage);
+            setMoveDialogVisible(false);
+        }
+    }
+
     function newGame() {
         setNewGameDialogVisible(true);
     }
@@ -196,14 +234,16 @@ export default function GameState() {
         highlightTargets,
         clearTargets,
         updateCountries,
-        initiateAttack
-    }), [highlightTargets, clearTargets, updateCountries, initiateAttack]);
+        initiateAttack,
+        initiateMove
+    }), [highlightTargets, clearTargets, updateCountries, initiateAttack, initiateMove]);
 
     function cancel(): void {
         setDeployDialogVisible(false);
         setAttackDialogVisible(false);
         setNewGameDialogVisible(false);
         setConquerDialogVisible(false);
+        setMoveDialogVisible(false);
     }
 
     useEffect(() => {
@@ -288,6 +328,7 @@ export default function GameState() {
                 highlightTargets={highlightTargets}
                 updateCountries={updateCountries} 
                 initiateAttack={initiateAttack}
+                initiateMove={initiateMove}
             />
             <div>
             <DeployDialog
@@ -306,6 +347,11 @@ export default function GameState() {
             <ConquerDialog 
                 isVisible={conquerDialogVisible}
                 confirmConquer={confirmConquer}
+                cancel={cancel}
+            />
+            <MoveDialog 
+                isVisible={moveDialogVisible}
+                confirmMove={confirmMove}
                 cancel={cancel}
             />
             </div>
