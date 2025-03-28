@@ -1,6 +1,6 @@
 import { useState } from "react";
 import React from "react";
-import './DeployDialog.css'
+import './dialog.css'
 
 interface AttackDialog {
     id: number;

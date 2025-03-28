@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import { GameOptions, Player } from "../../common/types";
+import { isEqualPlayers } from "../../common/util/deepEqualityCheck";
 
 // interface NewGameDialog {
 //     isVisible: boolean
@@ -19,17 +20,42 @@ interface PlayerInputProps {
     color: string;
     onChangeName: (index: number, name: string) => void;
     onChangeColor: (index: number, color: string) => void;
+    players: Player[];
 }
 
-function PlayerInput({index, name, color, onChangeName, onChangeColor}: PlayerInputProps) {
+const supportedColors = ["red", "blue", "green", "yellow", "purple", "orange", "teal", "pink"];
 
+const colorLabels: Record<string, string> = {
+    red: "🔴 Red",
+    blue: "🔵 Blue",
+    green: "🟢 Green",
+    yellow: "🟡 Yellow",
+    purple: "🟣 Purple",
+    orange: "🟠 Orange",
+    teal: "🟦 Teal",
+    pink: "🌸 Pink",
+}
+
+
+function PlayerInput({ index, name, color, onChangeName, onChangeColor, players }: PlayerInputProps) {
+    const takenColors = players
+    .map((player, i) => (i === index ? null : player.color))
+    .filter(Boolean);
     return ( 
         <div>
-            <label>Player {index}: {name}. Color: {color}</label><br/>
+            <label className="label">Player {index}:</label><br/>
             Name:
             <input type="text" value={name} onChange={(e) => onChangeName(index, e.target.value)}/>
+            <br/>
             Color:
-            <input type="text" value={color} onChange={(e) => onChangeColor(index, e.target.value)}/>
+            <select value={color} onChange={(e) => onChangeColor(index, e.target.value)}>
+                <option value="">Select Color</option>
+                    {supportedColors.map((c) => (
+                        <option key={c} value={c} disabled={takenColors.includes(c)}>
+                            {colorLabels[c] || c}
+                        </option>
+                    ))}
+            </select>
             <br/>
             <br/>
         </div>
@@ -71,11 +97,28 @@ const NewGameDialog: React.FC<NewGameDialogProps> = ({isVisible, confirmNewGame,
     const handleColorChange = (index: number, color: string) => {
         const updated = [...players];
         updated[index].color = color;
+        console.log(`Updated player ${index} color to ${color}`);
         setPlayers(updated);
     }
 
     const startGame = () => {
-        confirmNewGame(gameOptions, players);
+        const usedColors = new Set<string>();
+
+        const finalizedPlayers = players.map((player) => {
+            let color = player.color;
+            if (!color || usedColors.has(color)) {
+                const availableColor = supportedColors.find((c) => !usedColors.has(c));
+                if (availableColor) {
+                    color = availableColor;
+                }
+            }
+            usedColors.add(color);
+            return {
+                ...player,
+                color
+            }
+    });
+        confirmNewGame(gameOptions, finalizedPlayers);
     }
 
     return (
@@ -97,6 +140,7 @@ const NewGameDialog: React.FC<NewGameDialogProps> = ({isVisible, confirmNewGame,
                     color = {player.color}
                     onChangeName={handleNameChange}
                     onChangeColor={handleColorChange}
+                    players={players}
                 />
             ))}
             <></>
