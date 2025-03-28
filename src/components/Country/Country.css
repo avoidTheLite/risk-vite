@@ -26,4 +26,22 @@
       border-color: #faff64;
       background: #0b0046;
     }
+    &.green {
+      background: darkgreen;
+    }
+    &.yellow {
+      background: goldenrod;
+    }
+    &.purple {
+      background: indigo;
+    }
+    &.orange {
+      background: darkorange;
+    }
+    &.teal {
+      background: teal;
+    }
+    &.pink {
+      background: deeppink;
+    }
 }
