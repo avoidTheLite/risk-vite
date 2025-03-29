@@ -315,7 +315,6 @@ export default function GameState() {
             <EndTurnButton 
                 endTurn={endTurn} 
             /> <br/>
-            GameID = {safeGameState.id} <br/>
             Save Name = {safeGameState.saveName} <br/>
             <Globe 
                 id={safeGlobe.id}
