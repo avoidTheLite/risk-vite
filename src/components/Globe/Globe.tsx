@@ -1,6 +1,7 @@
 import React from "react";
 import Country from "../Country/Country";
 import { Turn, Player } from "../../common/types";
+import "./Globe.css"
 
 
 interface Globe {
@@ -28,14 +29,26 @@ interface GlobeProps {
 const Globe: React.FC<GlobeProps> = ({name, playerMax, turnData, players, countries, clearTargets, highlightTargets, updateCountries, initiateAttack, initiateMove}) => {
     return (
         <div>
-            Globe Name = {name} | Max Players = {playerMax} <br/>
-            Turn = {turnData.turn} | Game Phase = {turnData.phase} <br/>
-            Active Player = {turnData.activePlayerIndex} | Turn Phase = {turnData.turnTracker.phase} <br/> <hr/>
-            Players in Game {players.map((player) => (
-                <p key={player.id}>
-                    {player.name} | {player.color} | Reinforcements Available: {player.armies}
-                </p>
-            ))}
+            <div className="globe-info">
+                Globe Name: {name} | Max Players: {playerMax} <br/>
+                Game Phase: {turnData.phase} 
+                <hr/>
+                <span className="globe-content">
+                    <div>
+                    Turn: {turnData.turn} <br/>
+                    Turn Phase: {turnData.turnTracker.phase} <br/> <br/>
+                    </div>
+                    {players.map((player) => (
+                        <div key={player.id}> 
+                            {player.name} | {player.color} | Reinforcements: {player.armies}
+                            <span className="bold">
+                                {player.id === turnData.activePlayerIndex ? ` <---- Active Player` : ''}
+                            </span>
+                            
+                        </div>
+                    ))}
+                </span>
+            </div>
             <p>
             {countries.map((country) => (
                 <Country
