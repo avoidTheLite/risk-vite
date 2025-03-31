@@ -30,13 +30,13 @@ const Globe: React.FC<GlobeProps> = ({name, playerMax, turnData, players, countr
     return (
         <div>
             <div className="globe-info">
-                Globe Name = {name} | Max Players = {playerMax} <br/>
-                Game Phase = {turnData.phase} 
+                Globe Name: {name} | Max Players: {playerMax} <br/>
+                Game Phase: {turnData.phase} 
                 <hr/>
                 <span className="globe-content">
                     <div>
-                    Turn = {turnData.turn} <br/>
-                    Turn Phase = {turnData.turnTracker.phase} <br/> <br/>
+                    Turn: {turnData.turn} <br/>
+                    Turn Phase: {turnData.turnTracker.phase} <br/> <br/>
                     </div>
                     {players.map((player) => (
                         <div key={player.id}> 
