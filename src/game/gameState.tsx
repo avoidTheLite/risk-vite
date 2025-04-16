@@ -17,11 +17,12 @@ import { isEqualCountries, isEqualTurn, isEqualGlobe, isEqualPlayers } from "../
 import ConquerDialog from "../components/Dialog/ConquerDialog";
 import MoveDialog from "../components/Dialog/MoveDialog";
 import ViewGamesButton from "../components/Buttons/ViewGamesButton";
+import ViewGamesDialog from "../components/Dialog/ViewGamesdialog";
 
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
 export default function GameState() {
-    const { gameState, sendMessage } = useWebsocket();
+    const { gameState, openGames, sendMessage } = useWebsocket();
     const [countries, setCountries] = useState<Country[] | null>(null);
     const [turnData, setTurnData] = useState<Turn | null>(null)
     const [availableCommands, setAvailableCommands] = useState(initialAvailableCommands);
@@ -207,10 +208,19 @@ export default function GameState() {
         setNewGameDialogVisible(true);
     }
 
+    function refreshOpenGames() {
+        const viewOpenGamesMessage = {
+            action: "viewOpenGames" as WsActions,
+            message: "View Open Games"
+        }
+        sendMessage(viewOpenGamesMessage);
+    }
     function viewGames() {
         setViewGamesDialogVisible(true);
+        refreshOpenGames();
     }
 
+    
     function confirmNewGame(gameOptions: GameOptions, players: Player[]) {
         console.log('starting new game')
         const newGameMessage = {
@@ -319,6 +329,8 @@ export default function GameState() {
                 />
                 <ViewGamesDialog
                     isVisible={viewGamesDialogVisible}
+                    openGameData={openGames}
+                    refreshOpenGames={refreshOpenGames}
                     confirmJoinGame={confirmJoinGame}
                     cancel={cancel}
                 />
