@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import GamesTable from "../Table/GamesTable";
 import { LoadGameData, LoadGameTableData } from "../../common/types";
+import PlayerSlotSelector from "./PlayerSlotSelector";
 
 interface ViewGamesDialogProps {
     isVisible: boolean;
@@ -15,16 +16,29 @@ const ViewGamesDialog: React.FC<ViewGamesDialogProps> = ({isVisible, openGameDat
 
     const [selectedGame, setSelectedGame] = useState<LoadGameTableData | null>(null);
     const [playerSlots, setPlayerSlots] = useState<number[]>([]);
+    const [selectedPlayerSlots, setSelectedPlayerSlots] = useState<number[]>([]);
+
+    useEffect(() => {
+        if (selectedGame) {
+            setPlayerSlots(openGameData.find(game => game.saveName == selectedGame.saveName)!!.playerSlots);
+            setSelectedPlayerSlots([]);
+        }
+    }, [selectedGame])
 
     return (
         <dialog className={`dialog ${isVisible ? 'visible' : 'hidden'}`}>
-            <button onClick={() => confirmJoinGame(selectedGame!.saveName, [1])}>Join Game</button>
-            <button onClick={cancel}>Cancel</button>
-            <button onClick={refreshOpenGames}>Refresh</button>
             <GamesTable 
                 openGameData={openGameData}
                 setSelectedGame={setSelectedGame} 
             />
+            <PlayerSlotSelector
+                playerSlots={playerSlots}
+                selectedPlayerSlots={selectedPlayerSlots}
+                setSelectedPlayerSlots={setSelectedPlayerSlots}
+            />
+            <button onClick={() => confirmJoinGame(selectedGame!.saveName, selectedPlayerSlots)}>Join Game</button>
+            <button onClick={cancel}>Cancel</button>
+            <button onClick={refreshOpenGames}>Refresh</button>
         </dialog>
     )
 }
