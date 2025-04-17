@@ -1,4 +1,4 @@
-import { LoadGameData } from "../../common/types"
+import { LoadGameData } from "../types"
 
 
 

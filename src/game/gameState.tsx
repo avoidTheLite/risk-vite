@@ -13,7 +13,7 @@ import EndTurnButton from "../components/Buttons/EndTurnButton";
 import NewGameButton from "../components/Buttons/NewGameButton";
 import NewGameDialog from "../components/Dialog/NewGameDialog";
 import { useGameReady } from "../hooks/useGameReady";
-import { isEqualCountries, isEqualTurn, isEqualGlobe, isEqualPlayers } from "../common/util/deepEqualityCheck";
+import { isEqualCountries, isEqualTurn, isEqualGlobe } from "../common/util/deepEqualityCheck";
 import ConquerDialog from "../components/Dialog/ConquerDialog";
 import MoveDialog from "../components/Dialog/MoveDialog";
 import ViewGamesButton from "../components/Buttons/ViewGamesButton";

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
-import sampleGameData from './sampleGameData';
 import { LoadGameData, LoadGameTableData } from '../../common/types';
 
 const columns: TableColumn<LoadGameTableData>[] = [

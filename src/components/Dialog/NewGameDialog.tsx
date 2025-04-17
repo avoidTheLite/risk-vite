@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import { GameOptions, Player } from "../../common/types";
-import { isEqualPlayers } from "../../common/util/deepEqualityCheck";
 
 // interface NewGameDialog {
 //     isVisible: boolean
