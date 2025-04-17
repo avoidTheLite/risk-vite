@@ -19,7 +19,7 @@ const PlayerSlotSelector: React.FC<PlayerSlotSelectorProps> = ({ playerSlots,
     
     return (
         <div>
-            <p>Select Player Slots to Control:</p>
+            <p>Select Player Slots:</p>
             {playerSlots.map((id) => (
                 <label key={id} style={{ display: "block", marginBottom: "6px"}}>
                     <input

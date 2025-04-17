@@ -18,6 +18,8 @@ import ConquerDialog from "../components/Dialog/ConquerDialog";
 import MoveDialog from "../components/Dialog/MoveDialog";
 import ViewGamesButton from "../components/Buttons/ViewGamesButton";
 import ViewGamesDialog from "../components/Dialog/ViewGamesdialog";
+import OpenGameButton from "../components/Buttons/OpenGameButton"
+import OpenGameDialog from "../components/Dialog/OpenGameDialog";
 
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
@@ -38,6 +40,7 @@ export default function GameState() {
     const [viewGamesDialogVisible, setViewGamesDialogVisible] = useState(false);
     const [conquerDialogVisible, setConquerDialogVisible] = useState(false);
     const [moveDialogVisible, setMoveDialogVisible] = useState(false);
+    const [openGameDialogVisible, setOpenGameDialogVisible] = useState(false);
     const { isReady, safeGameState, safeGlobe } = useGameReady(gameState, globe);
 
     
@@ -245,6 +248,22 @@ export default function GameState() {
         sendMessage(joinGameMessage);
         setViewGamesDialogVisible(false);
     }
+    
+    function openGame() {
+        setOpenGameDialogVisible(true);
+    }
+
+    function confirmOpenGame(playerSlots: number[]) {
+        console.log(`Opening game: `+ gameState!.saveName)
+        const openGameMessage = {
+            action: "openGame" as WsActions,
+            message: `Opening game with ${playerSlots.length} open player slots`,
+            saveName: gameState!.saveName,
+            playerSlots: playerSlots
+        }
+        sendMessage(openGameMessage);
+        setOpenGameDialogVisible(false);
+    }
 
     function endTurn() {
         if (!hasStartedGame(gameState, globe)) return;
@@ -273,6 +292,7 @@ export default function GameState() {
         setConquerDialogVisible(false);
         setMoveDialogVisible(false);
         setViewGamesDialogVisible(false);
+        setOpenGameDialogVisible(false);
     }
 
     useEffect(() => {
@@ -350,6 +370,15 @@ export default function GameState() {
                 isVisible={newGameDialogVisible}
                 confirmNewGame={confirmNewGame}
                 cancel={cancel}
+            />
+            <OpenGameButton
+                openGame={openGame}
+            />
+            <OpenGameDialog
+                isVisible={openGameDialogVisible}
+                confirmOpenGame={confirmOpenGame}
+                cancel={cancel}
+                playerIDs={safeGameState.players.map((players) => players.id)}
             />
             <EndTurnButton 
                 endTurn={endTurn} 
