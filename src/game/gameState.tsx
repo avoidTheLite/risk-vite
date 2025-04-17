@@ -13,14 +13,18 @@ import EndTurnButton from "../components/Buttons/EndTurnButton";
 import NewGameButton from "../components/Buttons/NewGameButton";
 import NewGameDialog from "../components/Dialog/NewGameDialog";
 import { useGameReady } from "../hooks/useGameReady";
-import { isEqualCountries, isEqualTurn, isEqualGlobe, isEqualPlayers } from "../common/util/deepEqualityCheck";
+import { isEqualCountries, isEqualTurn, isEqualGlobe } from "../common/util/deepEqualityCheck";
 import ConquerDialog from "../components/Dialog/ConquerDialog";
 import MoveDialog from "../components/Dialog/MoveDialog";
+import ViewGamesButton from "../components/Buttons/ViewGamesButton";
+import ViewGamesDialog from "../components/Dialog/ViewGamesdialog";
+import OpenGameButton from "../components/Buttons/OpenGameButton"
+import OpenGameDialog from "../components/Dialog/OpenGameDialog";
 
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
 export default function GameState() {
-    const { gameState, sendMessage } = useWebsocket();
+    const { gameState, openGames, sendMessage } = useWebsocket();
     const [countries, setCountries] = useState<Country[] | null>(null);
     const [turnData, setTurnData] = useState<Turn | null>(null)
     const [availableCommands, setAvailableCommands] = useState(initialAvailableCommands);
@@ -33,8 +37,10 @@ export default function GameState() {
     const targetCountry = useRef<number | null>(null);
     const [attackDialogVisible, setAttackDialogVisible] = useState(false);
     const [newGameDialogVisible, setNewGameDialogVisible] = useState(false);
+    const [viewGamesDialogVisible, setViewGamesDialogVisible] = useState(false);
     const [conquerDialogVisible, setConquerDialogVisible] = useState(false);
     const [moveDialogVisible, setMoveDialogVisible] = useState(false);
+    const [openGameDialogVisible, setOpenGameDialogVisible] = useState(false);
     const { isReady, safeGameState, safeGlobe } = useGameReady(gameState, globe);
 
     
@@ -167,7 +173,7 @@ export default function GameState() {
         }
     }
 
-    function initiateMove(id: number) {
+    const initiateMove = useCallback((id: number) => {
         if (!countries) return;
         targetCountry.current = id;
         for (let i = 0; i < countries.length; i++) {
@@ -176,7 +182,7 @@ export default function GameState() {
             }
         }
         setMoveDialogVisible(true);
-    }
+    }, [countries]);
 
     function confirmMove(troopCount: number) {
         if (!countries || !gameState) return;
@@ -205,6 +211,19 @@ export default function GameState() {
         setNewGameDialogVisible(true);
     }
 
+    function refreshOpenGames() {
+        const viewOpenGamesMessage = {
+            action: "viewOpenGames" as WsActions,
+            message: "View Open Games"
+        }
+        sendMessage(viewOpenGamesMessage);
+    }
+    function viewGames() {
+        setViewGamesDialogVisible(true);
+        refreshOpenGames();
+    }
+
+    
     function confirmNewGame(gameOptions: GameOptions, players: Player[]) {
         console.log('starting new game')
         const newGameMessage = {
@@ -216,6 +235,34 @@ export default function GameState() {
         }
         sendMessage(newGameMessage);
         setNewGameDialogVisible(false);
+    }
+
+    function confirmJoinGame(saveName: string, playerSlots: number[]) {
+        console.log('joining game ' + saveName)
+        const joinGameMessage = {
+            action: "joinGame" as WsActions,
+            message: "Join Game",
+            saveName: saveName,
+            playerSlots: playerSlots
+        }
+        sendMessage(joinGameMessage);
+        setViewGamesDialogVisible(false);
+    }
+    
+    function openGame() {
+        setOpenGameDialogVisible(true);
+    }
+
+    function confirmOpenGame(playerSlots: number[]) {
+        console.log(`Opening game: `+ gameState!.saveName)
+        const openGameMessage = {
+            action: "openGame" as WsActions,
+            message: `Opening game with ${playerSlots.length} open player slots`,
+            saveName: gameState!.saveName,
+            playerSlots: playerSlots
+        }
+        sendMessage(openGameMessage);
+        setOpenGameDialogVisible(false);
     }
 
     function endTurn() {
@@ -244,6 +291,8 @@ export default function GameState() {
         setNewGameDialogVisible(false);
         setConquerDialogVisible(false);
         setMoveDialogVisible(false);
+        setViewGamesDialogVisible(false);
+        setOpenGameDialogVisible(false);
     }
 
     useEffect(() => {
@@ -298,9 +347,19 @@ export default function GameState() {
                     newGame={newGame}
                     
                 />
+                <ViewGamesDialog
+                    isVisible={viewGamesDialogVisible}
+                    openGameData={openGames}
+                    refreshOpenGames={refreshOpenGames}
+                    confirmJoinGame={confirmJoinGame}
+                    cancel={cancel}
+                />
+                <ViewGamesButton
+                    viewGames={viewGames}
+                />
                 <div>Waiting to Start game...</div>
             </>
-        );
+        ); 
     } else {
     return (
         <div className="globe" key = {safeGlobe.id}>
@@ -311,6 +370,15 @@ export default function GameState() {
                 isVisible={newGameDialogVisible}
                 confirmNewGame={confirmNewGame}
                 cancel={cancel}
+            />
+            <OpenGameButton
+                openGame={openGame}
+            />
+            <OpenGameDialog
+                isVisible={openGameDialogVisible}
+                confirmOpenGame={confirmOpenGame}
+                cancel={cancel}
+                playerIDs={safeGameState.players.map((players) => players.id)}
             />
             <EndTurnButton 
                 endTurn={endTurn} 

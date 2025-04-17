@@ -28,6 +28,20 @@ export interface GameData {
     
 }
 
+export interface LoadGameTableData {
+    saveName: string;
+    playerCount: number;
+    openSlots: number;
+    globeID: string;
+    turn: number;
+    phase: Phase;
+    name: string;
+}
+
+export interface LoadGameData extends LoadGameTableData {
+    id: string;
+    playerSlots: number[];
+}
 
 export type Phase = "deploy" | "play" | "end";
 

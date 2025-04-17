@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { GameData, WsRequestData } from "../types";
+import { GameData, LoadGameData , WsRequestData } from "../types";
 
 
 
@@ -7,6 +7,7 @@ const WS_URL = "ws://localhost:8080";
 
 export default function useWebsocket() {
     const [gameState, setGameState] = useState<GameData | null>(null);
+    const [openGames, setOpenGames] = useState<LoadGameData[]>([]);
     const ws = useRef<WebSocket | null>(null);
 
     useEffect(() => {
@@ -17,15 +18,20 @@ export default function useWebsocket() {
             };
             ws.current.onmessage = (event) => {
                 if (event.data == '...connected to risk server') {
-                    console.log('...connected to risk server');}
-                    else {
-                        if (!event.data || JSON.parse(event.data).data.status == "failure") {
-                            console.log('failure');
+                    console.log('...connected to risk server');
+                } else {
+                    if (!event.data || JSON.parse(event.data).data.status == "failure") {
+                        console.log('failure');
+                    } else {
+                        if (JSON.parse(event.data).data.action == "viewOpenGames") {
+                            setOpenGames(JSON.parse(event.data).data.gameSlots);
+                            console.log(`open games: ${JSON.stringify(JSON.parse(event.data).data.gameSlots)}`);
                         } else {
                             console.log(JSON.parse(event.data).data);
                             const newGameState: GameData = JSON.parse(event.data).data.gameState;
                             setGameState(newGameState);
                         }
+                    }
                 }
             };
 
@@ -54,5 +60,5 @@ export default function useWebsocket() {
             }
         };
 
-        return { gameState, sendMessage };
+        return { gameState, openGames, sendMessage };
 }
