@@ -20,6 +20,8 @@ import ViewGamesButton from "../components/Buttons/ViewGamesButton";
 import ViewGamesDialog from "../components/Dialog/ViewGamesdialog";
 import OpenGameButton from "../components/Buttons/OpenGameButton"
 import OpenGameDialog from "../components/Dialog/OpenGameDialog";
+import QuitGameButton from "../components/Buttons/QuitGameButton";
+import QuitGameDialog from "../components/Dialog/QuitGameDialog";
 
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
@@ -41,6 +43,7 @@ export default function GameState() {
     const [conquerDialogVisible, setConquerDialogVisible] = useState(false);
     const [moveDialogVisible, setMoveDialogVisible] = useState(false);
     const [openGameDialogVisible, setOpenGameDialogVisible] = useState(false);
+    const [quitGameDialogVisible, setQuitGameDialogVisible] = useState(false);
     const { isReady, safeGameState, safeGlobe } = useGameReady(gameState, globe);
 
     
@@ -253,6 +256,17 @@ export default function GameState() {
         setOpenGameDialogVisible(true);
     }
 
+    function quitGame() {
+        setQuitGameDialogVisible(true);
+    }
+
+    function confirmQuitGame() {
+        // TODO: disconnect
+        // TODO: navigate to home
+        // reset game ready state
+        setQuitGameDialogVisible(false);
+    }
+
     function confirmOpenGame(playerSlots: number[]) {
         console.log(`Opening game: `+ gameState!.saveName)
         const openGameMessage = {
@@ -293,6 +307,7 @@ export default function GameState() {
         setMoveDialogVisible(false);
         setViewGamesDialogVisible(false);
         setOpenGameDialogVisible(false);
+        setQuitGameDialogVisible(false);
     }
 
     useEffect(() => {
@@ -338,6 +353,7 @@ export default function GameState() {
         console.log(`countries: ${JSON.stringify(countries)}`);
         return (
             <>
+                <h1>Risk: The Board Game</h1>
                 <NewGameDialog
                     isVisible={newGameDialogVisible}
                     confirmNewGame={confirmNewGame}
@@ -369,6 +385,14 @@ export default function GameState() {
             <NewGameDialog
                 isVisible={newGameDialogVisible}
                 confirmNewGame={confirmNewGame}
+                cancel={cancel}
+            />
+            <QuitGameButton 
+                quitGame={quitGame}
+            />
+            <QuitGameDialog
+                isVisible={quitGameDialogVisible}
+                confirmQuitGame={confirmQuitGame}
                 cancel={cancel}
             />
             <OpenGameButton
