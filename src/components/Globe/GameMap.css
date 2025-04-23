@@ -1,0 +1,57 @@
+.country {
+    border: 1px solid #999;
+    fill: black;
+    stroke: #999;
+    float: left;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 50px;
+    margin-right: -1px;
+    margin-top: 5px;
+    padding: 0;
+    text-align: center;
+    width: 250px;
+    &.red{
+      fill: rgba(75, 1, 1, 0.836);
+    }
+    &.blue{
+      fill: rgb(2, 2, 96);
+    };
+    &.gray{
+      fill: gray;
+    };
+    &.green {
+      fill: darkgreen;
+    }
+    &.yellow {
+      fill: goldenrod;
+    }
+    &.purple {
+      fill: indigo;
+    }
+    &.orange {
+      fill: darkorange;
+    }
+    &.teal {
+      fill: teal;
+    }
+    &.pink {
+      fill: deeppink;
+    }
+    &.isSelected{
+      border-color: #faff64;
+      fill: #0f3f39;
+    }
+    &.isTargetable{
+      border-color: #faff64;
+      fill: #0b0046;
+    }
+}
+
+svg text,
+svg use,
+svg circle,
+svg .decorative {
+  pointer-events: none;
+}

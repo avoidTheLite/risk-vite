@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 // import response from "../common/util/test/mockState";
 import mockAvailableCommands from "../common/util/test/mockAvailableCommands-deploy";
 import "./gameState.css";
-import { default as Country, CountryMethods } from "../components/Country/Country";
+import { Country } from "../components/Globe/GameMap";
 import Globe from "../components/Globe/Globe";
 import { Turn, CountryData, GameOptions, Player, GameData, WsActions } from "../common/types";
 import DeployDialog from "../components/Dialog/DeployDialog";
@@ -291,13 +291,15 @@ export default function GameState() {
         sendMessage(endTurnMessage);
     }
 
-    const countryMethods: CountryMethods = useMemo(() => ( {
-        highlightTargets,
-        clearTargets,
-        updateCountries,
-        initiateAttack,
-        initiateMove
-    }), [highlightTargets, clearTargets, updateCountries, initiateAttack, initiateMove]);
+    function getClassName(id: number): string {
+        if (!countries) return "country";
+        const country = countries.find(c => c.id === id);
+        if (!country) return "country";
+        let base = `country ${country.color}`;
+        if (country.isSelected) base += " isSelected";
+        else if (country.isTargetable) base += " isTargetable";
+        return base;
+      }
 
     function cancel(): void {
         setDeployDialogVisible(false);
@@ -314,7 +316,7 @@ export default function GameState() {
         
         if (!gameState || !gameState.countries) return;
         const newCountries: Country[] = gameState.countries.map((country: CountryData) => 
-            transformCountry(country, countryMethods)  
+            transformCountry(country)  
         );
         const newTurnData: Turn = {
             turn: {...gameState}.turn,
@@ -347,7 +349,7 @@ export default function GameState() {
             setConquerDialogVisible(false);
         }
 
-    }, [gameState, countryMethods, countries, turnData]);
+    }, [gameState, countries, turnData]);
 
     if (!isReady || !safeGameState || !safeGlobe || !Array.isArray(countries)) {
         console.log(`countries: ${JSON.stringify(countries)}`);
@@ -415,6 +417,7 @@ export default function GameState() {
                 turnData={safeGlobe.turnData}
                 players={safeGameState.players}
                 countries={countries}
+                getClassName={getClassName}
                 clearTargets={clearTargets}
                 highlightTargets={highlightTargets}
                 updateCountries={updateCountries} 
