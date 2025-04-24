@@ -57,7 +57,7 @@ const GameMap: React.FC<GameMapProps> = ({ countries, activePlayerIndex, getClas
     };
 
     return (
-  <svg onClick={handleSvgClick} xmlns="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="182 114 730 510">
+  <svg onClick={handleSvgClick} xmlns="http://www.w3.org/1999/xlink" viewBox="182 114 730 510">
  <title>Risk game board</title>
  <desc>Risk game board by CMG Lee, the asterisk denoting the missing link in the 40th Anniversary Collector's Edition, based on shapes from http://commons.wikimedia.org/wiki/File:Risk_board.svg .</desc>
   <g id="map" strokeLinejoin="round">
