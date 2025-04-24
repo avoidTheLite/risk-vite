@@ -1,0 +1,69 @@
+.country {
+    cursor: pointer;
+    border: 1px solid #999;
+    fill: black;
+    &.red{
+      fill: rgba(75, 1, 1, 0.836);
+    }
+    &.blue{
+      fill: rgb(2, 2, 96);
+    };
+    &.gray{
+      fill: gray;
+    };
+    &.green {
+      fill: darkgreen;
+    }
+    &.yellow {
+      fill: goldenrod;
+    }
+    &.purple {
+      fill: indigo;
+    }
+    &.orange {
+      fill: darkorange;
+    }
+    &.teal {
+      fill: teal;
+    }
+    &.pink {
+      fill: deeppink;
+    }
+    &.isSelected{
+      border-color: #faff64;
+      fill: #0f3f39;
+    }
+    &.isTargetable{
+      border-color: #faff64;
+      fill: #0b0046;
+    }
+}
+
+.map-background {
+  fill: #084550;
+}
+.map-connections{
+stroke: #000000;
+stroke-width: 4;
+}
+.map-connections-outline{
+  stroke: #ffffff;
+  stroke-width: 8;
+}
+
+svg text,
+svg use,
+svg circle,
+svg .decorative{
+  pointer-events: none;
+}
+
+svg, g, path {
+  transform: none;
+  position: static;
+}
+
+path:hover {
+  stroke: yellow;
+  stroke-width: 3;
+}

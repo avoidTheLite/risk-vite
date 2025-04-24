@@ -14,7 +14,6 @@ function App() {
       <p className="read-the-docs">
         Click the Risk Logo above to read the rules of the game
       </p>
-      <h1>Risk: The Board Game</h1>
       <GameState>
       </GameState>
     </>

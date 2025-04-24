@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 // import response from "../common/util/test/mockState";
 import mockAvailableCommands from "../common/util/test/mockAvailableCommands-deploy";
 import "./gameState.css";
-import { default as Country, CountryMethods } from "../components/Country/Country";
+import { Country } from "../components/Globe/GameMap";
 import Globe from "../components/Globe/Globe";
 import { Turn, CountryData, GameOptions, Player, GameData, WsActions } from "../common/types";
 import DeployDialog from "../components/Dialog/DeployDialog";
@@ -20,6 +20,8 @@ import ViewGamesButton from "../components/Buttons/ViewGamesButton";
 import ViewGamesDialog from "../components/Dialog/ViewGamesdialog";
 import OpenGameButton from "../components/Buttons/OpenGameButton"
 import OpenGameDialog from "../components/Dialog/OpenGameDialog";
+import QuitGameButton from "../components/Buttons/QuitGameButton";
+import QuitGameDialog from "../components/Dialog/QuitGameDialog";
 
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
@@ -41,6 +43,7 @@ export default function GameState() {
     const [conquerDialogVisible, setConquerDialogVisible] = useState(false);
     const [moveDialogVisible, setMoveDialogVisible] = useState(false);
     const [openGameDialogVisible, setOpenGameDialogVisible] = useState(false);
+    const [quitGameDialogVisible, setQuitGameDialogVisible] = useState(false);
     const { isReady, safeGameState, safeGlobe } = useGameReady(gameState, globe);
 
     
@@ -253,6 +256,17 @@ export default function GameState() {
         setOpenGameDialogVisible(true);
     }
 
+    function quitGame() {
+        setQuitGameDialogVisible(true);
+    }
+
+    function confirmQuitGame() {
+        // TODO: disconnect
+        // TODO: navigate to home
+        // reset game ready state
+        setQuitGameDialogVisible(false);
+    }
+
     function confirmOpenGame(playerSlots: number[]) {
         console.log(`Opening game: `+ gameState!.saveName)
         const openGameMessage = {
@@ -277,13 +291,15 @@ export default function GameState() {
         sendMessage(endTurnMessage);
     }
 
-    const countryMethods: CountryMethods = useMemo(() => ( {
-        highlightTargets,
-        clearTargets,
-        updateCountries,
-        initiateAttack,
-        initiateMove
-    }), [highlightTargets, clearTargets, updateCountries, initiateAttack, initiateMove]);
+    function getClassName(id: number): string {
+        if (!countries) return "country";
+        const country = countries.find(c => c.id === id);
+        if (!country) return "country";
+        let base = `country ${country.color}`;
+        if (country.isSelected) base += " isSelected";
+        else if (country.isTargetable) base += " isTargetable";
+        return base;
+      }
 
     function cancel(): void {
         setDeployDialogVisible(false);
@@ -293,13 +309,14 @@ export default function GameState() {
         setMoveDialogVisible(false);
         setViewGamesDialogVisible(false);
         setOpenGameDialogVisible(false);
+        setQuitGameDialogVisible(false);
     }
 
     useEffect(() => {
         
         if (!gameState || !gameState.countries) return;
         const newCountries: Country[] = gameState.countries.map((country: CountryData) => 
-            transformCountry(country, countryMethods)  
+            transformCountry(country)  
         );
         const newTurnData: Turn = {
             turn: {...gameState}.turn,
@@ -332,12 +349,13 @@ export default function GameState() {
             setConquerDialogVisible(false);
         }
 
-    }, [gameState, countryMethods, countries, turnData]);
+    }, [gameState, countries, turnData]);
 
     if (!isReady || !safeGameState || !safeGlobe || !Array.isArray(countries)) {
         console.log(`countries: ${JSON.stringify(countries)}`);
         return (
             <>
+                <h1>Risk: The Board Game</h1>
                 <NewGameDialog
                     isVisible={newGameDialogVisible}
                     confirmNewGame={confirmNewGame}
@@ -371,6 +389,14 @@ export default function GameState() {
                 confirmNewGame={confirmNewGame}
                 cancel={cancel}
             />
+            <QuitGameButton 
+                quitGame={quitGame}
+            />
+            <QuitGameDialog
+                isVisible={quitGameDialogVisible}
+                confirmQuitGame={confirmQuitGame}
+                cancel={cancel}
+            />
             <OpenGameButton
                 openGame={openGame}
             />
@@ -391,6 +417,7 @@ export default function GameState() {
                 turnData={safeGlobe.turnData}
                 players={safeGameState.players}
                 countries={countries}
+                getClassName={getClassName}
                 clearTargets={clearTargets}
                 highlightTargets={highlightTargets}
                 updateCountries={updateCountries} 

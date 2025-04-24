@@ -1,5 +1,6 @@
 import React from "react";
-import Country from "../Country/Country";
+import { Country } from "../Globe/GameMap"
+import GameMap from "./GameMap";
 import { Turn, Player } from "../../common/types";
 import "./Globe.css"
 
@@ -19,6 +20,7 @@ interface GlobeProps {
     turnData: Turn;
     players: Player[];
     countries: Country[];
+    getClassName: (id: number) => string;
     highlightTargets: (id: number ) => Country[];
     clearTargets: () => Country[];
     updateCountries: (newCountries: Country[]) => void;
@@ -26,7 +28,7 @@ interface GlobeProps {
     initiateMove: (id: number) => void;
 }
     
-const Globe: React.FC<GlobeProps> = ({name, playerMax, turnData, players, countries, clearTargets, highlightTargets, updateCountries, initiateAttack, initiateMove}) => {
+const Globe: React.FC<GlobeProps> = ({name, playerMax, turnData, players, countries, getClassName, clearTargets, highlightTargets, updateCountries, initiateAttack, initiateMove}) => {
     return (
         <div>
             <div className="globe-info">
@@ -49,26 +51,15 @@ const Globe: React.FC<GlobeProps> = ({name, playerMax, turnData, players, countr
                     ))}
                 </span>
             </div>
-            <p>
-            {countries.map((country) => (
-                <Country
-                key={country.id}
-                name={country.name}
-                id={country.id}
-                color={country.color}
-                armies={country.armies}
-                ownerID={country.ownerID}
+                <GameMap countries={countries}
                 activePlayerIndex={turnData.activePlayerIndex}
-                isSelected={country.isSelected}
-                isTargetable={country.isTargetable}
-                clearTargets={clearTargets}
+                getClassName={getClassName}
                 highlightTargets={highlightTargets}
+                clearTargets={clearTargets}
                 updateCountries={updateCountries}
                 initiateAttack={initiateAttack}
-                initiateMove={initiateMove}
-                />
-            ))}
-            </p>
+                initiateMove={initiateMove} 
+            />
     </div>
     )
 }
