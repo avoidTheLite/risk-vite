@@ -41,7 +41,6 @@ const GameMap: React.FC<GameMapProps> = ({ countries, activePlayerIndex, getClas
 }
     const handleSvgClick = (e: React.MouseEvent<SVGSVGElement>) => {
         let target = (e.target as Element).closest('[data-id]');
-        console.log (`target = ${target?.tagName}`)
         while (target && !target.hasAttribute('data-id')) {
           target = target.parentElement as Element;
           if (!target || target === e.currentTarget) {
@@ -58,7 +57,7 @@ const GameMap: React.FC<GameMapProps> = ({ countries, activePlayerIndex, getClas
     };
 
     return (
-  <svg onClick={handleSvgClick} xmlns="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="182 114 720 405">
+  <svg onClick={handleSvgClick} xmlns="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="182 114 730 510">
  <title>Risk game board</title>
  <desc>Risk game board by CMG Lee, the asterisk denoting the missing link in the 40th Anniversary Collector's Edition, based on shapes from http://commons.wikimedia.org/wiki/File:Risk_board.svg .</desc>
   <g id="map" strokeLinejoin="round">
@@ -110,24 +109,25 @@ const GameMap: React.FC<GameMapProps> = ({ countries, activePlayerIndex, getClas
     <path className={getClassName(40)} transform="translate(-7,2)" d="M832,455C832,455 833,452 834,452C835,451 834,451 834,449C834,448 833,447 834,447C836,446 836,447 838,446C839,446 841,445 841,445L843,447C843,447 843,447 846,447C848,447 849,448 850,450C851,452 850,453 853,454C856,456 858,457 860,457C861,458 863,459 862,460C862,462 864,462 862,463C862,463 867,465 868,467C869,468 870,469 869,470C867,471 866,470 866,471C866,472 867,473 867,474C868,475 869,476 869,478C869,479 869,480 870,481C872,482 872,482 872,483C872,484 872,485 872,485C872,485 871,486 869,486C867,486 866,485 866,485C865,485 863,484 863,484C863,484 862,480 858,479C855,478 855,477 855,478C855,479 856,480 855,481C853,481 852,481 852,481C851,481 855,483 850,483C846,483 845,481 843,482C841,483 836,478 836,478C836,478 833,479 833,477C833,476 832,476 833,474C834,473 834,473 834,472C834,470 834,470 834,468C834,467 835,466 834,466C833,465 832,465 832,464C831,463 831,462 831,462C830,462 831,463 829,463C828,463 827,464 825,462C824,460 824,460 822,460C819,460 814,464 818,460C822,457 823,457 823,457C823,457 819,457 819,455C819,454 818,452 817,451C816,451 815,451 816,449C816,448 817,444 820,444C824,444 825,445 826,446C827,446 829,445 829,446C829,448 829,451 829,451C829,451 830,452 831,454L832,455Z" data-id="40" />
     <path className={getClassName(41)} transform="translate(-7,2)" d="M862,599L862,599C862,599 862,593 862,592C863,591 862,591 861,590C861,589 862,547 862,547C862,546 832,547 832,547L832,509L829,508C829,508 828,507 827,506C826,506 825,508 825,509C824,509 822,510 822,510C822,510 821,512 821,513C821,515 819,513 817,514C815,515 817,515 816,517C816,518 816,517 814,517C813,517 814,518 812,519C811,520 811,519 810,521C808,522 809,522 809,524C808,525 808,524 806,525C805,526 804,528 803,529C802,530 801,529 799,529C797,529 798,529 796,529C795,529 795,530 794,531C793,532 793,533 791,534C790,535 791,534 789,535C787,535 788,535 786,536C784,537 786,538 785,539C785,540 785,540 784,542C784,543 784,543 785,545C785,546 787,545 787,545C787,545 786,547 787,548C787,549 786,548 785,548C783,548 784,548 784,550C784,551 784,551 784,551C784,551 784,551 783,552C782,553 783,553 783,554C783,556 784,556 784,557C785,559 785,558 786,560C787,562 786,562 786,564C786,566 786,565 787,568C787,570 788,569 788,569C788,569 789,570 790,571C790,571 790,572 791,573C791,575 790,575 790,576C790,577 790,577 790,579C790,581 789,580 788,581C787,582 788,582 787,583C787,585 787,584 788,585C789,586 790,586 791,587C793,590 796,589 799,587C801,586 800,586 801,586C802,585 802,585 803,585C803,585 804,584 805,583C806,582 805,583 807,582C808,582 808,581 810,580C812,580 812,580 812,580C812,580 812,580 814,580C816,580 815,580 815,581C816,582 817,582 817,582C818,582 819,582 820,581C821,581 820,580 820,579C820,578 820,578 820,577C821,576 822,575 823,575C824,575 826,575 826,574C827,573 827,574 829,574C830,573 830,573 831,572C832,571 832,571 834,571C836,571 835,571 837,571C839,571 839,572 840,572C841,572 842,573 843,574C844,574 843,574 843,576C843,577 843,577 845,580C846,582 847,582 847,582C847,582 848,581 849,579C850,577 850,579 852,578C853,577 852,577 853,575C853,572 854,574 855,574C856,574 855,576 855,578C854,579 854,579 853,580C852,581 852,581 851,582C850,584 850,583 850,585C851,586 852,584 853,583C854,582 854,582 855,582C855,583 855,585 855,586C855,587 855,587 856,587C857,588 857,589 856,590C856,592 856,592 856,593C857,594 858,596 859,597C860,598 860,597 860,598C861,598 861,599 862,599Z" data-id="41" />
 </g>
- <circle cx="0" cy="0" r="99999" fill="#ffffff" pointerEvents="none" />
+ <circle className="map-background" cx="0" cy="0" r="99999" pointerEvents="none" />
  <g fontFamily="Helvetica,Arial,sans-serif" pointerEvents="none" fontSize="12" letterSpacing="-1" textAnchor="middle" fill="#999" stroke="none" strokeLinecap="round" strokeLinejoin="round" transform="scale(1,0.85)">
-  <use href="#map" stroke="#99ffff" strokeWidth="15" /><use href="#map" stroke="#ffffff" strokeWidth="14" />
-  <use href="#map" stroke="#99eeff" strokeWidth="10" /><use href="#map" stroke="#ffffff" strokeWidth="9" />
-  <use href="#map" stroke="#66ccff" strokeWidth="6" /><use href="#map" stroke="#ffffff" strokeWidth="5" />
-  <use href="#map" stroke="#6699ff" strokeWidth="3" /><use href="#map" stroke="#ffffff" strokeWidth="2" />
+  <use href="#map" stroke="#99ffff" strokeWidth="15" pointerEvents="none" /><use href="#map" stroke="#ffffff" strokeWidth="10" pointerEvents="none"/>
+  <use href="#map" stroke="#99eeff" strokeWidth="10" pointerEvents="none"/><use href="#map" stroke="#ffffff" strokeWidth="6" pointerEvents="none"/>
+  <use href="#map" stroke="#66ccff" strokeWidth="6" pointerEvents="none"/><use href="#map" stroke="#ffffff" strokeWidth="3" pointerEvents="none"/>
+  <use href="#map" stroke="#6699ff" strokeWidth="3" pointerEvents="none"/><use href="#map" stroke="#ffffff" strokeWidth="1" pointerEvents="none"/>
   <use href="#map" stroke="#000000" filter="url(#filter_texture)" />
-  <path d="M 225,175 Q 225,140 265,140 H 800 Q 840,140 840,170 M 360,190 L 385,185 L 380,220 M 385,185 L 340,240 M 460,200 L 475,215 M 486,268 L 520,245 L 495,235 Z L 529,272 L 520,245 M 497,300 L 502,305 M 498,373 V 382 M 538,375 L 560,370 V 390 M 450,440 H 475 M 650,445 V 455 M 615,545 H 635 L 625,495 M 790,460 H 818 V 508 Z V 435 M 818,460 L 840,500 M 822,280 L 835,310 H 820" fill="none" stroke="#cccccc" strokeWidth="4" filter="url(#filter_texture)" />
+  <path className="map-connections-outline" pointerEvents="none" d="M 225,175 Q 225,140 265,140 H 800 Q 840,140 840,170 M 360,190 L 385,185 L 380,220 M 385,185 L 340,240 M 460,200 L 475,215 M 486,268 L 520,245 L 495,235 Z L 529,272 L 520,245 M 497,300 L 502,305 M 498,373 V 382 M 538,375 L 560,370 V 390 M 450,440 H 475 M 650,445 V 455 M 615,545 H 635 L 625,495 M 790,460 H 818 V 508 Z V 435 M 818,460 L 840,500 M 822,280 L 835,310 H 820" fill="none" filter="url(#filter_texture)" />
+  <path className="map-connections" pointerEvents="none" d="M 225,175 Q 225,140 265,140 H 800 Q 840,140 840,170 M 360,190 L 385,185 L 380,220 M 385,185 L 340,240 M 460,200 L 475,215 M 486,268 L 520,245 L 495,235 Z L 529,272 L 520,245 M 497,300 L 502,305 M 498,373 V 382 M 538,375 L 560,370 V 390 M 450,440 H 475 M 650,445 V 455 M 615,545 H 635 L 625,495 M 790,460 H 818 V 508 Z V 435 M 818,460 L 840,500 M 822,280 L 835,310 H 820" fill="none" filter="url(#filter_texture)" />
   <g filter="url(#filter_glow)" pointerEvents="none">
-   <text transform="translate(223,190) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[0].armies}</tspan><tspan x="0" dy="1em">Alaska</tspan></text>
-   <text transform="translate(285,230) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[1].armies}</tspan><tspan x="0" dy="1em">Alberta</tspan></text>
-   <text transform="translate(295,352) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[2].armies}</tspan><tspan x="0" dy="1em">Central</tspan><tspan x="0" dy="1em">America</tspan></text>
-   <text transform="translate(343,293) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[3].armies}</tspan><tspan x="0" dy="1em">Eastern</tspan><tspan x="0" dy="1em">US</tspan></text>
-   <text transform="translate(433,164) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[4].armies}</tspan><tspan x="0" dy="1em">Greenland</tspan></text>
-   <text transform="translate(300,175) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[5].armies}</tspan><tspan x="0" dy="1em">Northwest</tspan><tspan x="0" dy="1em">Territory</tspan></text>
-   <text transform="translate(335,240) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[6].armies}</tspan><tspan x="0" dy="1em">Ontario</tspan></text>
-   <text transform="translate(385,245) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[7].armies}</tspan><tspan x="0" dy="1em">Quebec</tspan></text>
-   <text transform="translate(288,275) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[8].armies}</tspan><tspan x="0" dy="1em">Western</tspan><tspan x="0" dy="1em">US</tspan></text>
+   <text pointerEvents="none" transform="translate(223,190) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[0].armies}</tspan><tspan x="0" dy="1em">Alaska</tspan></text>
+   <text pointerEvents="none" transform="translate(285,230) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[1].armies}</tspan><tspan x="0" dy="1em">Alberta</tspan></text>
+   <text pointerEvents="none" transform="translate(295,352) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[2].armies}</tspan><tspan x="0" dy="1em">Central</tspan><tspan x="0" dy="1em">America</tspan></text>
+   <text pointerEvents="none" transform="translate(343,293) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[3].armies}</tspan><tspan x="0" dy="1em">Eastern</tspan><tspan x="0" dy="1em">US</tspan></text>
+   <text pointerEvents="none" transform="translate(433,164) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[4].armies}</tspan><tspan x="0" dy="1em">Greenland</tspan></text>
+   <text pointerEvents="none" transform="translate(300,175) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[5].armies}</tspan><tspan x="0" dy="1em">Northwest</tspan><tspan x="0" dy="1em">Territory</tspan></text>
+   <text pointerEvents="none" transform="translate(335,240) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[6].armies}</tspan><tspan x="0" dy="1em">Ontario</tspan></text>
+   <text pointerEvents="none" transform="translate(385,245) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[7].armies}</tspan><tspan x="0" dy="1em">Quebec</tspan></text>
+   <text pointerEvents="none" transform="translate(288,275) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[8].armies}</tspan><tspan x="0" dy="1em">Western</tspan><tspan x="0" dy="1em">US</tspan></text>
 
    <text transform="translate(365,496) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[9].armies}</tspan><tspan x="0" dy="1em">Argen-</tspan><tspan x="0" dy="1em">tina</tspan></text>
    <text transform="translate(405,440) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">{countries[10].armies}</tspan><tspan x="0" dy="1em">Brazil</tspan></text>
@@ -175,7 +175,7 @@ const GameMap: React.FC<GameMapProps> = ({ countries, activePlayerIndex, getClas
    <text transform="translate(850,350)" x="0" y="0.7ex" stroke="#0f0"><tspan>Asia</tspan></text>
    <text transform="translate(730,530)" x="0" y="0.7ex" stroke="#c9f"><tspan>Australia</tspan></text>
   </g>
-  <use href="#continents" strokeOpacity="0" />
+  <use href="#continents" strokeOpacity="0" pointerEvents="none" />
   <text pointerEvents="none" transform="translate(656,451) scale(0.8,0.9)" x="0" y="0.7ex"><tspan fontWeight="bold">*</tspan></text>
  </g>
  
