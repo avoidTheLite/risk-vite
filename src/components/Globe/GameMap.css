@@ -67,3 +67,11 @@ path:hover {
   stroke: yellow;
   stroke-width: 3;
 }
+
+.responsive-svg {
+  width: 100%;
+  height: auto;
+  max-width: 1280px;
+  display: block;
+  margin: 0 auto;
+}
