@@ -4,20 +4,27 @@
     color:rgb(140, 29, 29)
 }
 
+.globe {
+    width: 100%;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+}
+
 .globe-content{
     text-align: left;
 }
 
-.globe-container{
-    padding: 16px;
-    font-family: sans-serif;
-}
 
 .globe-info{
     padding: 12px;
-    margin: auto;
+    margin: 0;
     margin-bottom: 12px;
     border-radius: 8px;
     border: 1px solid #444;
     align-self: center;
+    justify-content: center;
+    max-width: 500px;
+    display:inline-flex;
+    flex-direction: column;
 }
