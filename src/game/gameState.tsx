@@ -1,7 +1,6 @@
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 // import response from "../common/util/test/mockState";
 import mockAvailableCommands from "../common/util/test/mockAvailableCommands-deploy";
-import "./gameState.css";
 import { Country } from "../components/Globe/GameMap";
 import Globe from "../components/Globe/Globe";
 import { Turn, CountryData, GameOptions, Player, GameData, WsActions } from "../common/types";
@@ -9,7 +8,6 @@ import DeployDialog from "../components/Dialog/DeployDialog";
 import AttackDialog from "../components/Dialog/AttackDialog";
 import useWebsocket from "../common/util/useWebsocket";
 import transformCountry from "../common/util/transformCountry";
-import EndTurnButton from "../components/Buttons/EndTurnButton";
 import NewGameButton from "../components/Buttons/NewGameButton";
 import NewGameDialog from "../components/Dialog/NewGameDialog";
 import { useGameReady } from "../hooks/useGameReady";
@@ -406,14 +404,11 @@ export default function GameState() {
                 cancel={cancel}
                 playerIDs={safeGameState.players.map((players) => players.id)}
             />
-            <EndTurnButton 
-                endTurn={endTurn} 
-            /> <br/>
+            <br/>
             Save Name = {safeGameState.saveName} <br/>
+            Globe Name: {safeGlobe.name} | Max Players: {safeGlobe.playerMax} <br/>
             <Globe 
                 id={safeGlobe.id}
-                name={safeGlobe.name}
-                playerMax={safeGlobe.playerMax}
                 turnData={safeGlobe.turnData}
                 players={safeGameState.players}
                 countries={countries}
@@ -423,6 +418,7 @@ export default function GameState() {
                 updateCountries={updateCountries} 
                 initiateAttack={initiateAttack}
                 initiateMove={initiateMove}
+                endTurn={endTurn} 
             />
             <div>
             <DeployDialog
