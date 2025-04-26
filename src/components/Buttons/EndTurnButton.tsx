@@ -8,7 +8,7 @@ interface EndTurnButtonProps {
 }
 const EndTurnButton: React.FC<EndTurnButtonProps> = ({endTurn}) => {
     return (
-        <button className="overlay-button"onClick={endTurn} style={{ top: '1rem', right: '1rem'}}>End Turn</button>
+        <button className="overlay-button"onClick={endTurn} >End Turn</button>
     )
 }
 

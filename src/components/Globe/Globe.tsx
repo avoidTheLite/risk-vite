@@ -31,7 +31,7 @@ const Globe: React.FC<GlobeProps> = ({turnData, players, countries, getClassName
     return (
         <div className="globe-container">
             <div className="globe-info-and-controls">
-                <div className="globe-info" style={{ top: '0.5rem', left: '0.5rem'}}>
+                <div className="globe-info">
                     <span className="globe-content">
                         <div>
                         Game Phase: {turnData.phase} <br/>
