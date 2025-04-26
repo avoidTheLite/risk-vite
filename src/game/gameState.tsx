@@ -24,7 +24,7 @@ import QuitGameDialog from "../components/Dialog/QuitGameDialog";
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
 export default function GameState() {
-    const { gameState, openGames, sendMessage } = useWebsocket();
+    const { gameState, openGames, sendMessage, closeWebSocket } = useWebsocket();
     const [countries, setCountries] = useState<Country[] | null>(null);
     const [turnData, setTurnData] = useState<Turn | null>(null)
     const [availableCommands, setAvailableCommands] = useState(initialAvailableCommands);
@@ -259,9 +259,7 @@ export default function GameState() {
     }
 
     function confirmQuitGame() {
-        // TODO: disconnect
-        // TODO: navigate to home
-        // reset game ready state
+        closeWebSocket();
         setQuitGameDialogVisible(false);
     }
 

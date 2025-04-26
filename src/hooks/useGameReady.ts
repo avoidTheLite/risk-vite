@@ -1,7 +1,7 @@
 import {useMemo } from "react";
 import { GameData, CountryData, Turn, Player } from "../common/types";
 import Globe from "../components/Globe/Globe";
-import Country from "../components/Country/Country";
+import { Country } from "../components/Globe/GameMap";
 
 interface SafeGameState extends GameData {
     countries: Country[];

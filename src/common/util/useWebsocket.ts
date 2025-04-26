@@ -37,7 +37,7 @@ export default function useWebsocket() {
 
             ws.current.onclose = () => {
                 console.log("Disconnected from WebSocket server");
-                setTimeout(connectWebSocket, 3000);
+                setTimeout(connectWebSocket, 2000);
             };
 
             ws.current.onerror = (error) => {
@@ -60,5 +60,10 @@ export default function useWebsocket() {
             }
         };
 
-        return { gameState, openGames, sendMessage };
+        const closeWebSocket = () => {
+            ws.current?.close();
+            setGameState(null);
+        };
+
+        return { gameState, openGames, sendMessage, closeWebSocket };
 }
