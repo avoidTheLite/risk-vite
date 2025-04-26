@@ -3,7 +3,7 @@ import { Country } from "../Globe/GameMap"
 import GameMap from "./GameMap";
 import { Turn, Player } from "../../common/types";
 import "./Globe.css"
-
+import EndTurnButton from "../Buttons/EndTurnButton";
 
 interface Globe {
     id: string;
@@ -15,8 +15,6 @@ interface Globe {
 }
 interface GlobeProps {
     id: string;
-    name: string;
-    playerMax: number;
     turnData: Turn;
     players: Player[];
     countries: Country[];
@@ -26,29 +24,31 @@ interface GlobeProps {
     updateCountries: (newCountries: Country[]) => void;
     initiateAttack: (id: number) => void;
     initiateMove: (id: number) => void;
+    endTurn: () => void
 }
     
-const Globe: React.FC<GlobeProps> = ({name, playerMax, turnData, players, countries, getClassName, clearTargets, highlightTargets, updateCountries, initiateAttack, initiateMove}) => {
+const Globe: React.FC<GlobeProps> = ({turnData, players, countries, getClassName, clearTargets, highlightTargets, updateCountries, initiateAttack, initiateMove, endTurn}) => {
     return (
-        <div>
-            <div className="globe-info">
-                Globe Name: {name} | Max Players: {playerMax} <br/>
-                Game Phase: {turnData.phase} 
-                <span className="globe-content">
-                    <div>
-                    Turn: {turnData.turn} <br/>
-                    Turn Phase: {turnData.turnTracker.phase} <br/>
-                    </div>
-                    {players.map((player) => (
-                        <div key={player.id}> 
-                            {player.name} | {player.color} | Reinforcements: {player.armies}
-                            <span className="bold">
-                                {player.id === turnData.activePlayerIndex ? ` <---- Active Player` : ''}
-                            </span>
-                            
+        <div className="globe-container">
+            <div className="globe-info-and-controls">
+                <div className="globe-info" style={{ top: '0.5rem', left: '0.5rem'}}>
+                    <span className="globe-content">
+                        <div>
+                        Game Phase: {turnData.phase} <br/>
+                        Turn: {turnData.turn} ({turnData.turnTracker.phase})<br/>
                         </div>
-                    ))}
-                </span>
+                        {players.map((player) => (
+                            <div key={player.id}> 
+                                {player.name} | {player.color} | Armies: {player.armies}
+                                
+                            </div>
+                        ))} <br/>
+                        <span className = "active-player">
+                            It is {players[turnData.activePlayerIndex].name}'s turn. (Player {players[turnData.activePlayerIndex].id})
+                        </span>
+                    </span>
+                </div>
+                <EndTurnButton endTurn={endTurn} />
             </div>
             <GameMap countries={countries}
                 activePlayerIndex={turnData.activePlayerIndex}
@@ -59,7 +59,7 @@ const Globe: React.FC<GlobeProps> = ({name, playerMax, turnData, players, countr
                 initiateAttack={initiateAttack}
                 initiateMove={initiateMove} 
             />
-    </div>
+        </div>
     )
 }
 
