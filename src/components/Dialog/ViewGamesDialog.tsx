@@ -24,22 +24,26 @@ const ViewGamesDialog: React.FC<ViewGamesDialogProps> = ({isVisible, openGameDat
             setSelectedPlayerSlots([]);
         }
     }, [selectedGame])
-
+    if (!isVisible) {
+        return null;
+    }
     return (
-        <dialog className={`dialog ${isVisible ? 'visible' : 'hidden'}`}>
-            <GamesTable 
-                openGameData={openGameData}
-                setSelectedGame={setSelectedGame} 
-            />
-            <PlayerSlotSelector
-                playerSlots={playerSlots}
-                selectedPlayerSlots={selectedPlayerSlots}
-                setSelectedPlayerSlots={setSelectedPlayerSlots}
-            />
-            <button onClick={() => confirmJoinGame(selectedGame!.saveName, selectedPlayerSlots)}>Join Game</button>
-            <button onClick={cancel}>Cancel</button>
-            <button onClick={refreshOpenGames}>Refresh</button>
-        </dialog>
+        <div className="dialog-container">
+            <dialog className={`dialog`}>
+                <GamesTable 
+                    openGameData={openGameData}
+                    setSelectedGame={setSelectedGame} 
+                />
+                <PlayerSlotSelector
+                    playerSlots={playerSlots}
+                    selectedPlayerSlots={selectedPlayerSlots}
+                    setSelectedPlayerSlots={setSelectedPlayerSlots}
+                />
+                <button onClick={() => confirmJoinGame(selectedGame!.saveName, selectedPlayerSlots)}>Join Game</button>
+                <button onClick={cancel}>Cancel</button>
+                <button onClick={refreshOpenGames}>Refresh</button>
+            </dialog>
+        </div>
     )
 }
 

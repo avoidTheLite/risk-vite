@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import { GameOptions, Player } from "../../common/types";
+import './dialog.css'
 
 // interface NewGameDialog {
 //     isVisible: boolean
@@ -119,20 +120,23 @@ const NewGameDialog: React.FC<NewGameDialogProps> = ({isVisible, confirmNewGame,
     });
         confirmNewGame(gameOptions, finalizedPlayers);
     }
-
+    if (!isVisible) {
+        return null;
+    }
     return (
-        <dialog className={`dialog ${isVisible ? 'visible' : 'hidden'}`}>
-            <h2>New Game Setup</h2>
-            <label>Number of Players</label>
-            <input type="number" 
-                value ={playerCount}
-                min={2}
-                max={6}
-                onChange={(e) => setPlayerCount(parseInt(e.target.value, 10))}
-            />
-            <br/> <br/>
-            {players.map((player, index) => (
-                <PlayerInput 
+        <div className="dialog-container">
+            <dialog className={`dialog`}>
+                <h2>New Game Setup</h2>
+                <label>Number of Players</label>
+                <input type="number" 
+                    value ={playerCount}
+                    min={2}
+                    max={6}
+                    onChange={(e) => setPlayerCount(parseInt(e.target.value, 10))}
+                    />
+                <br/> <br/>
+                {players.map((player, index) => (
+                    <PlayerInput 
                     key={index}
                     index={index}
                     name={player.name}
@@ -140,19 +144,20 @@ const NewGameDialog: React.FC<NewGameDialogProps> = ({isVisible, confirmNewGame,
                     onChangeName={handleNameChange}
                     onChangeColor={handleColorChange}
                     players={players}
-                />
-            ))}
-            <></>
-            <br/>
-            <input type="checkbox" id="randomAssignment" checked={gameOptions.randomAssignment} onChange={(e) => setGameOptions({...gameOptions, randomAssignment: e.target.checked})} />
-            <label htmlFor="randomAssignment">Random Assignment</label>
-            <input type="checkbox" id="neutralArmies" checked={gameOptions.neutralArmies} onChange={(e) => setGameOptions({...gameOptions, neutralArmies: e.target.checked})} />
-            <label htmlFor="neutralArmies">Neutral Armies</label>
-            <br/>
-            <hr/>   
-            <button onClick={startGame}>Start Game</button>
-            <button onClick={cancel}>Cancel</button>
-        </dialog>
+                    />
+                ))}
+                <></>
+                <br/>
+                <input type="checkbox" id="randomAssignment" checked={gameOptions.randomAssignment} onChange={(e) => setGameOptions({...gameOptions, randomAssignment: e.target.checked})} />
+                <label htmlFor="randomAssignment">Random Assignment</label>
+                <input type="checkbox" id="neutralArmies" checked={gameOptions.neutralArmies} onChange={(e) => setGameOptions({...gameOptions, neutralArmies: e.target.checked})} />
+                <label htmlFor="neutralArmies">Neutral Armies</label>
+                <br/>
+                <hr/>   
+                <button onClick={startGame}>Start Game</button>
+                <button onClick={cancel}>Cancel</button>
+            </dialog>
+        </div>
     )
 
 }

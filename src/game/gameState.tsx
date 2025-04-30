@@ -1,5 +1,4 @@
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
-// import response from "../common/util/test/mockState";
 import mockAvailableCommands from "../common/util/test/mockAvailableCommands-deploy";
 import { Country } from "../components/Globe/GameMap";
 import Globe from "../components/Globe/Globe";
@@ -15,7 +14,7 @@ import { isEqualCountries, isEqualTurn, isEqualGlobe } from "../common/util/deep
 import ConquerDialog from "../components/Dialog/ConquerDialog";
 import MoveDialog from "../components/Dialog/MoveDialog";
 import ViewGamesButton from "../components/Buttons/ViewGamesButton";
-import ViewGamesDialog from "../components/Dialog/ViewGamesdialog";
+import ViewGamesDialog from "../components/Dialog/ViewGamesDialog";
 import OpenGameButton from "../components/Buttons/OpenGameButton"
 import OpenGameDialog from "../components/Dialog/OpenGameDialog";
 import QuitGameButton from "../components/Buttons/QuitGameButton";
@@ -424,6 +423,7 @@ export default function GameState() {
                 confirmDeploy={confirmDeploy}
                 cancel={cancel}
                 deployTarget={deployTarget}
+                playerArmies={safeGameState.players[safeGameState.activePlayerIndex].armies}
                 />
             </div>
             <div>
@@ -431,16 +431,22 @@ export default function GameState() {
                 isVisible={attackDialogVisible}
                 confirmAttack={confirmAttack}
                 cancel={cancel}
+                attackingCountry={attackingCountry.current}
+                countries={countries}
             />
             <ConquerDialog 
                 isVisible={conquerDialogVisible}
                 confirmConquer={confirmConquer}
                 cancel={cancel}
+                attackingCountry={attackingCountry.current}
+                countries={countries}
             />
             <MoveDialog 
                 isVisible={moveDialogVisible}
                 confirmMove={confirmMove}
                 cancel={cancel}
+                sourceCountry={sourceCountry.current}
+                countries={countries}
             />
             </div>
         </div>
