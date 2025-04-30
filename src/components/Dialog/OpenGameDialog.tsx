@@ -10,18 +10,22 @@ interface OpenGameDialogProps {
 
 const OpenGameDialog = ({isVisible, confirmOpenGame, cancel, playerIDs}: OpenGameDialogProps) => {
     const [selectedPlayerSlots, setSelectedPlayerSlots] = useState<number[]>([]);
-
+    if (!isVisible) {
+        return null;
+    }
     return (
-        <dialog className={`dialog ${isVisible ? 'visible' : 'hidden'}`}>
-            <h2>Opening Game: Select Player Slots</h2>
-            <PlayerSlotSelector
-                playerSlots={playerIDs}
-                selectedPlayerSlots={selectedPlayerSlots}
-                setSelectedPlayerSlots={setSelectedPlayerSlots}
-            />
-            <button onClick={() => confirmOpenGame(selectedPlayerSlots)}>Open Game</button>
-            <button onClick={cancel}>Cancel</button>
-        </dialog>
+        <div className="dialog-container">
+            <dialog className={`dialog`}>
+                <h2>Opening Game: Select Player Slots</h2>
+                <PlayerSlotSelector
+                    playerSlots={playerIDs}
+                    selectedPlayerSlots={selectedPlayerSlots}
+                    setSelectedPlayerSlots={setSelectedPlayerSlots}
+                />
+                <button onClick={() => confirmOpenGame(selectedPlayerSlots)}>Open Game</button>
+                <button onClick={cancel}>Cancel</button>
+            </dialog>
+        </div>
     )
 }
 

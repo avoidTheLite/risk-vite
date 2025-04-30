@@ -21,7 +21,7 @@ export default function useWebsocket() {
                     console.log('...connected to risk server');
                 } else {
                     if (!event.data || JSON.parse(event.data).data.status == "failure") {
-                        console.log('failure');
+                        console.log(`failure: ${JSON.stringify(JSON.parse(event.data).data.message)}`);
                     } else {
                         if (JSON.parse(event.data).data.action == "viewOpenGames") {
                             setOpenGames(JSON.parse(event.data).data.gameSlots);

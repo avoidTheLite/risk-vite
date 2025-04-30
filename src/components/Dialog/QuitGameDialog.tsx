@@ -7,12 +7,17 @@ interface QuitGameDialogProps {
 }
 
 const QuitGameDialog = ({isVisible, confirmQuitGame, cancel}: QuitGameDialogProps) => {
+    if (!isVisible) {
+        return null;
+    }
     return (
-        <dialog className={`dialog ${isVisible ? 'visible' : 'hidden'}`}>
-            <h2>Are you sure you want to quit the game?</h2>
-            <button onClick={() => confirmQuitGame()}>Yes</button>
-            <button onClick={cancel}>Cancel</button>
-        </dialog>
+        <div className="dialog-container">
+            <dialog className={`dialog`}>
+                <h2>Are you sure you want to quit the game?</h2>
+                <button onClick={() => confirmQuitGame()}>Yes</button>
+                <button onClick={cancel}>Cancel</button>
+            </dialog>
+        </div>
     )
 }
 

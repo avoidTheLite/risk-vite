@@ -14,7 +14,7 @@ import { isEqualCountries, isEqualTurn, isEqualGlobe } from "../common/util/deep
 import ConquerDialog from "../components/Dialog/ConquerDialog";
 import MoveDialog from "../components/Dialog/MoveDialog";
 import ViewGamesButton from "../components/Buttons/ViewGamesButton";
-import ViewGamesDialog from "../components/Dialog/ViewGamesdialog";
+import ViewGamesDialog from "../components/Dialog/ViewGamesDialog";
 import OpenGameButton from "../components/Buttons/OpenGameButton"
 import OpenGameDialog from "../components/Dialog/OpenGameDialog";
 import QuitGameButton from "../components/Buttons/QuitGameButton";

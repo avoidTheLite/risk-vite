@@ -37,19 +37,24 @@ const DeployDialog: React.FC<DeployDialogProps> = ({isVisible, confirmDeploy, ca
         setTroopCount(playerArmies);
     }, [playerArmies])
 
+    if (!isVisible) {
+        return null;
+    }
     return (
-        <dialog className={`dialog ${isVisible ? 'visible' : 'hidden'}`}>
-            Deploy to {deployTarget} - How many armies: {troopCount}? <br/> <br/>
-            <input type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
-            <br/>
-            <button onClick={() => incrementTroopCount(-5)}>-5</button>
-            <button onClick={() => incrementTroopCount(-1)}>-1</button>
-            <button onClick={() => incrementTroopCount(1)}>+1</button>
-            <button onClick={() => incrementTroopCount(5)}>+5</button>
-            <br/>
-            <button onClick={() => confirmDeploy(deployTarget, troopCount)}>Deploy</button>
-            <button onClick={cancel}>Cancel</button>
-        </dialog>
+        <div className="dialog-container">
+            <dialog className="dialog">
+                Deploy to {deployTarget} - How many armies: {troopCount}? <br/> <br/>
+                <input type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
+                <br/>
+                <button onClick={() => incrementTroopCount(-5)}>-5</button>
+                <button onClick={() => incrementTroopCount(-1)}>-1</button>
+                <button onClick={() => incrementTroopCount(1)}>+1</button>
+                <button onClick={() => incrementTroopCount(5)}>+5</button>
+                <br/>
+                <button onClick={() => confirmDeploy(deployTarget, troopCount)}>Deploy</button>
+                <button onClick={cancel}>Cancel</button>
+            </dialog>
+        </div>
     )
 }
 

@@ -38,21 +38,26 @@ const ConquerDialog: React.FC<ConquerDialogProps> = ({isVisible, confirmConquer,
     useEffect(() => {
             if (!countries || !attackingCountry) return;
             setTroopCount(countries[attackingCountry].armies-1);
-        }, [isVisible])
+    }, [isVisible])
 
+    if (!isVisible) {
+        return null;
+    }
     return (
-        <dialog className={`dialog ${isVisible ? 'visible' : 'hidden'}`}>
-            Conquer Dialog - How many armies would you like to move: {troopCount}? <br/> <br/>
-            <input type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
-            <br/>
-            <button onClick={() => incrementTroopCount(-5)}>-5</button>
-            <button onClick={() => incrementTroopCount(-1)}>-1</button>
-            <button onClick={() => incrementTroopCount(1)}>+1</button>
-            <button onClick={() => incrementTroopCount(5)}>+5</button>
-            <br/>
-            <button onClick={() => confirmConquer(troopCount)}>Conquer</button>
-            <button onClick={cancel}>Cancel</button>
-        </dialog>
+        <div className="dialog-container">
+            <dialog className={`dialog`}>
+                Conquer Dialog - How many armies would you like to move: {troopCount}? <br/> <br/>
+                <input type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
+                <br/>
+                <button onClick={() => incrementTroopCount(-5)}>-5</button>
+                <button onClick={() => incrementTroopCount(-1)}>-1</button>
+                <button onClick={() => incrementTroopCount(1)}>+1</button>
+                <button onClick={() => incrementTroopCount(5)}>+5</button>
+                <br/>
+                <button onClick={() => confirmConquer(troopCount)}>Conquer</button>
+                <button onClick={cancel}>Cancel</button>
+            </dialog>
+        </div>
     )
 }
 

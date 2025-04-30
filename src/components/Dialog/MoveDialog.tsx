@@ -40,19 +40,24 @@ const MoveDialog: React.FC<MoveDialogProps> = ({isVisible, confirmMove, cancel, 
         setTroopCount(countries[sourceCountry].armies-1);
     }, [isVisible])
 
+    if (!isVisible) {
+        return null;
+    }
     return (
-        <dialog className={`dialog ${isVisible ? 'visible' : 'hidden'}`}>
-            Move Dialog - How many armies would you like to move: {troopCount}? <br/> <br/>
-            <input type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
-            <br/>
-            <button onClick={() => incrementTroopCount(-5)}>-5</button>
-            <button onClick={() => incrementTroopCount(-1)}>-1</button>
-            <button onClick={() => incrementTroopCount(1)}>+1</button>
-            <button onClick={() => incrementTroopCount(5)}>+5</button>
-            <br/>
-            <button onClick={() => confirmMove(troopCount)}>Move</button>
-            <button onClick={cancel}>Cancel</button>
-        </dialog>
+        <div className="dialog-container">
+            <dialog className={`dialog`}>
+                Move Dialog - How many armies would you like to move: {troopCount}? <br/> <br/>
+                <input type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
+                <br/>
+                <button onClick={() => incrementTroopCount(-5)}>-5</button>
+                <button onClick={() => incrementTroopCount(-1)}>-1</button>
+                <button onClick={() => incrementTroopCount(1)}>+1</button>
+                <button onClick={() => incrementTroopCount(5)}>+5</button>
+                <br/>
+                <button onClick={() => confirmMove(troopCount)}>Move</button>
+                <button onClick={cancel}>Cancel</button>
+            </dialog>
+        </div>
     )
 }
 
