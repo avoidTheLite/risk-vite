@@ -4,6 +4,7 @@ import GameMap from "./GameMap";
 import { Turn, Player } from "../../common/types";
 import "./Globe.css"
 import EndTurnButton from "../Buttons/EndTurnButton";
+import { TransformWrapper, TransformComponent, MiniMap, useControls } from "react-zoom-pan-pinch";
 
 interface Globe {
     id: string;
@@ -26,6 +27,17 @@ interface GlobeProps {
     initiateMove: (id: number) => void;
     endTurn: () => void
 }
+const Controls = () => {
+    const { zoomIn, zoomOut, resetTransform } = useControls();
+  
+    return (
+      <div className="tools">
+        <button onClick={() => zoomIn()}>Zoom In</button>
+        <button onClick={() => zoomOut()}>Zoom Out</button>
+        <button onClick={() => resetTransform()}>Reset Zoom</button>
+      </div>
+    );
+  };
     
 const Globe: React.FC<GlobeProps> = ({turnData, players, countries, getClassName, clearTargets, highlightTargets, updateCountries, initiateAttack, initiateMove, endTurn}) => {
     return (
@@ -50,15 +62,48 @@ const Globe: React.FC<GlobeProps> = ({turnData, players, countries, getClassName
                 </div>
                 <EndTurnButton endTurn={endTurn} />
             </div>
-            <GameMap countries={countries}
-                activePlayerIndex={turnData.activePlayerIndex}
-                getClassName={getClassName}
-                highlightTargets={highlightTargets}
-                clearTargets={clearTargets}
-                updateCountries={updateCountries}
-                initiateAttack={initiateAttack}
-                initiateMove={initiateMove} 
-            />
+            <TransformWrapper 
+                initialScale={1}
+                minScale={0.5}
+                maxScale={5}
+                centerOnInit
+                limitToBounds
+                wheel={{ step: 250 }}
+                doubleClick={{ disabled: false }}
+                panning={{ velocityDisabled: true }}
+                >
+                <MiniMap
+                    width={200}
+                    height={150}
+                    borderColor="#888"
+                    >
+                    <GameMap countries={countries}
+                        activePlayerIndex={turnData.activePlayerIndex}
+                        getClassName={getClassName}
+                        highlightTargets={highlightTargets}
+                        clearTargets={clearTargets}
+                        updateCountries={updateCountries}
+                        initiateAttack={initiateAttack}
+                        initiateMove={initiateMove} 
+                    />
+                </MiniMap>
+                <Controls />
+                <TransformComponent
+                >
+                    <div className="pinchDisabled">
+                        <GameMap
+                            countries={countries}
+                            activePlayerIndex={turnData.activePlayerIndex}
+                            getClassName={getClassName}
+                            highlightTargets={highlightTargets}
+                            clearTargets={clearTargets}
+                            updateCountries={updateCountries}
+                            initiateAttack={initiateAttack}
+                            initiateMove={initiateMove} 
+                        />
+                    </div>
+                </TransformComponent>
+            </TransformWrapper>
         </div>
     )
 }
