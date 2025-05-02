@@ -67,14 +67,12 @@ svg, g, path {
   position: static;
 }
 
-path:hover {
+.country:hover {
   stroke: #646cff;
   stroke-width: 3;
 }
 
 .responsive-svg {
-  width: 100%;
-  height: auto;
   max-width: 1280px;
   display: block;
   margin: 0 auto;
