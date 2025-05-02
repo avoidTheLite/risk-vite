@@ -88,20 +88,17 @@ const Globe: React.FC<GlobeProps> = ({turnData, players, countries, getClassName
                     />
                 </MiniMap>
                 <Controls />
-                <TransformComponent
-                >
-                    <div className="pinchDisabled">
-                        <GameMap
-                            countries={countries}
-                            activePlayerIndex={turnData.activePlayerIndex}
-                            getClassName={getClassName}
-                            highlightTargets={highlightTargets}
-                            clearTargets={clearTargets}
-                            updateCountries={updateCountries}
-                            initiateAttack={initiateAttack}
-                            initiateMove={initiateMove} 
-                        />
-                    </div>
+                <TransformComponent>
+                    <GameMap
+                        countries={countries}
+                        activePlayerIndex={turnData.activePlayerIndex}
+                        getClassName={getClassName}
+                        highlightTargets={highlightTargets}
+                        clearTargets={clearTargets}
+                        updateCountries={updateCountries}
+                        initiateAttack={initiateAttack}
+                        initiateMove={initiateMove} 
+                    />
                 </TransformComponent>
             </TransformWrapper>
         </div>

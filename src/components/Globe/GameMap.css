@@ -72,8 +72,6 @@ svg, g, path {
 }
 
 .responsive-svg {
-  width: 100vw;
-  height: auto;
   max-width: 1280px;
   display: block;
   margin: 0 auto;

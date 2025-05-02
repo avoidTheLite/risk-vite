@@ -46,6 +46,7 @@
     position: relative;
     background-color: #084550;
     width: 100%;
+    height: auto;
     max-width: 100vw;
 }
 
@@ -57,12 +58,9 @@ button.overlay-button {
 .react-transform-wrapper {
     width: 100% !important;
     max-width: 100vw;
-    /* max-height: 80vh; */
 }
 
 .react-transform-component {
     width: 100% !important;
     max-width: 100vw;
-    /* transform: scale(1) !important; */
-    /* max-height: 80vh; */
 }
