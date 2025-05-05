@@ -19,6 +19,7 @@ import OpenGameButton from "../components/Buttons/OpenGameButton"
 import OpenGameDialog from "../components/Dialog/OpenGameDialog";
 import QuitGameButton from "../components/Buttons/QuitGameButton";
 import QuitGameDialog from "../components/Dialog/QuitGameDialog";
+import { GameMenuButton } from "@/components/Buttons/GameMenuButton";
 
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
@@ -376,6 +377,11 @@ export default function GameState() {
     } else {
     return (
         <div className="globe" key = {safeGlobe.id}>
+            <GameMenuButton 
+                newGame={newGame}
+                openGame={openGame}
+                quitGame={quitGame}
+            />
             <NewGameButton 
                 newGame={newGame}
             />

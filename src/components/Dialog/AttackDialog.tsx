@@ -49,7 +49,7 @@ const AttackDialog: React.FC<AttackDialogProps> = ({isVisible, confirmAttack, ca
     }
     return (
         <div className="dialog-container">
-            <dialog className={`dialog`}>
+            <dialog className={`dialog text-white`}>
                 Attack Dialog - How many armies: {troopCount}? <br/> <br/>
                 <input type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
                 <br/>

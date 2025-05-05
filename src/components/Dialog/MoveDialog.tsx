@@ -45,7 +45,7 @@ const MoveDialog: React.FC<MoveDialogProps> = ({isVisible, confirmMove, cancel, 
     }
     return (
         <div className="dialog-container">
-            <dialog className={`dialog`}>
+            <dialog className={`dialog text-white`}>
                 Move Dialog - How many armies would you like to move: {troopCount}? <br/> <br/>
                 <input type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
                 <br/>

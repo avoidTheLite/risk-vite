@@ -45,7 +45,7 @@ const ConquerDialog: React.FC<ConquerDialogProps> = ({isVisible, confirmConquer,
     }
     return (
         <div className="dialog-container">
-            <dialog className={`dialog`}>
+            <dialog className={`dialog text-white`}>
                 Conquer Dialog - How many armies would you like to move: {troopCount}? <br/> <br/>
                 <input type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
                 <br/>

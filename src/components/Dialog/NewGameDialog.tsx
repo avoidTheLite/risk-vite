@@ -124,8 +124,8 @@ const NewGameDialog: React.FC<NewGameDialogProps> = ({isVisible, confirmNewGame,
         return null;
     }
     return (
-        <div className="dialog-container">
-            <dialog className={`dialog`}>
+        <div className="dialog-container justify-self-center">
+            <dialog className={`dialog text-white place-content-center`}>
                 <h2>New Game Setup</h2>
                 <label>Number of Players</label>
                 <input type="number" 
