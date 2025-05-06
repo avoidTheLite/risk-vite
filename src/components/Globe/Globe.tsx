@@ -4,6 +4,7 @@ import GameMap from "./GameMap";
 import { Turn, Player } from "../../common/types";
 import "./Globe.css"
 import EndTurnButton from "../Buttons/EndTurnButton";
+import { Button } from "@/components/ui/button";
 import { TransformWrapper, TransformComponent, MiniMap, useControls } from "react-zoom-pan-pinch";
 
 interface Globe {
@@ -31,10 +32,10 @@ const Controls = () => {
     const { zoomIn, zoomOut, resetTransform } = useControls();
   
     return (
-      <div className="tools">
-        <button onClick={() => zoomIn()}>Zoom In</button>
-        <button onClick={() => zoomOut()}>Zoom Out</button>
-        <button onClick={() => resetTransform()}>Reset Zoom</button>
+      <div>
+        <Button onClick={() => zoomIn()}>Zoom In</Button>
+        <Button onClick={() => zoomOut()}>Zoom Out</Button>
+        <Button onClick={() => resetTransform()}>Reset Zoom</Button>
       </div>
     );
   };
@@ -64,7 +65,7 @@ const Globe: React.FC<GlobeProps> = ({turnData, players, countries, getClassName
             </div>
             <TransformWrapper 
                 initialScale={1}
-                minScale={0.5}
+                minScale={1}
                 maxScale={5}
                 centerOnInit
                 limitToBounds
