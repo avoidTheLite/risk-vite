@@ -12,8 +12,9 @@ const QuitGameDialog = ({isVisible, confirmQuitGame, cancel}: QuitGameDialogProp
     }
     return (
         <div className="dialog-container">
-            <dialog className={`dialog text-white`}>
-                <h2>Are you sure you want to quit the game?</h2>
+            <dialog className={`dialog`}>
+                <h2 className='heading'>Quit Game?</h2>
+                <p className="m-1">Are you sure you want to quit the game?</p>
                 <button onClick={() => confirmQuitGame()}>Yes</button>
                 <button onClick={cancel}>Cancel</button>
             </dialog>

@@ -1,3 +1,4 @@
+import './dialog.css'
 interface PlayerSlotSelectorProps {
     playerSlots: number[];
     selectedPlayerSlots: number[];
@@ -19,10 +20,11 @@ const PlayerSlotSelector: React.FC<PlayerSlotSelectorProps> = ({ playerSlots,
     
     return (
         <div>
-            <p>Select Player Slots:</p>
+            <p className='m-1'>Select Player Slots:</p>
             {playerSlots.map((id) => (
                 <label key={id} style={{ display: "block", marginBottom: "6px"}}>
                     <input
+                        className="input"
                         type="checkbox"
                         checked={selectedPlayerSlots.includes(id)}
                         onChange={() => handleToggle(id)}

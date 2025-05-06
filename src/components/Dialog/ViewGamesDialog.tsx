@@ -29,7 +29,7 @@ const ViewGamesDialog: React.FC<ViewGamesDialogProps> = ({isVisible, openGameDat
     }
     return (
         <div className="dialog-container">
-            <dialog className={`dialog text-white`}>
+            <dialog className={`dialog`}>
                 <GamesTable 
                     openGameData={openGameData}
                     setSelectedGame={setSelectedGame} 
