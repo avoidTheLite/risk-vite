@@ -45,10 +45,10 @@ function PlayerInput({ index, name, color, onChangeName, onChangeColor, players 
         <div>
             <label className="label">Player {index}:</label><br/>
             Name:
-            <input type="text" value={name} onChange={(e) => onChangeName(index, e.target.value)}/>
+            <input className="m-1 bg-(--input) text-(--input-foreground)" type="text" value={name} onChange={(e) => onChangeName(index, e.target.value)}/>
             <br/>
             Color:
-            <select value={color} onChange={(e) => onChangeColor(index, e.target.value)}>
+            <select className="bg-(--input) text-(--input-foreground)" value={color} onChange={(e) => onChangeColor(index, e.target.value)}>
                 <option value="">Select Color</option>
                     {supportedColors.map((c) => (
                         <option key={c} value={c} disabled={takenColors.includes(c)}>
@@ -124,12 +124,14 @@ const NewGameDialog: React.FC<NewGameDialogProps> = ({isVisible, confirmNewGame,
         return null;
     }
     return (
-        <div className="dialog-container justify-self-center">
-            <dialog className={`dialog text-white place-content-center`}>
+        <div className="static flex flex-col items-center justify-center z-1000 w-full h-full">
+            <dialog className={`fixed block top-1/4 left-1/2 -translate-x-1/2 z-1000 p-1 place-content-center text-(--popover-foreground) bg-(--popover)`}>
                 <h2>New Game Setup</h2>
-                <label>Number of Players</label>
-                <input type="number" 
-                    value ={playerCount}
+                <label>Number of Players: </label>
+                <input 
+                    className="m-1 bg-(--input) text-(--input-foreground)"
+                    type="number" 
+                    value={playerCount}
                     min={2}
                     max={6}
                     onChange={(e) => setPlayerCount(parseInt(e.target.value, 10))}
@@ -148,9 +150,10 @@ const NewGameDialog: React.FC<NewGameDialogProps> = ({isVisible, confirmNewGame,
                 ))}
                 <></>
                 <br/>
-                <input type="checkbox" id="randomAssignment" checked={gameOptions.randomAssignment} onChange={(e) => setGameOptions({...gameOptions, randomAssignment: e.target.checked})} />
+                <input className="m-1" type="checkbox" id="randomAssignment" checked={gameOptions.randomAssignment} onChange={(e) => setGameOptions({...gameOptions, randomAssignment: e.target.checked})} />
                 <label htmlFor="randomAssignment">Random Assignment</label>
-                <input type="checkbox" id="neutralArmies" checked={gameOptions.neutralArmies} onChange={(e) => setGameOptions({...gameOptions, neutralArmies: e.target.checked})} />
+                <br/>
+                <input className="m-1" type="checkbox" id="neutralArmies" checked={gameOptions.neutralArmies} onChange={(e) => setGameOptions({...gameOptions, neutralArmies: e.target.checked})} />
                 <label htmlFor="neutralArmies">Neutral Armies</label>
                 <br/>
                 <hr/>   
