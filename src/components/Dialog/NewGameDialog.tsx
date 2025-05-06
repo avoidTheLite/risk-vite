@@ -45,10 +45,10 @@ function PlayerInput({ index, name, color, onChangeName, onChangeColor, players 
         <div>
             <label className="label">Player {index}:</label><br/>
             Name:
-            <input type="text" value={name} onChange={(e) => onChangeName(index, e.target.value)}/>
+            <input className="input" type="text" value={name} onChange={(e) => onChangeName(index, e.target.value)}/>
             <br/>
             Color:
-            <select value={color} onChange={(e) => onChangeColor(index, e.target.value)}>
+            <select className="input" value={color} onChange={(e) => onChangeColor(index, e.target.value)}>
                 <option value="">Select Color</option>
                     {supportedColors.map((c) => (
                         <option key={c} value={c} disabled={takenColors.includes(c)}>
@@ -126,10 +126,12 @@ const NewGameDialog: React.FC<NewGameDialogProps> = ({isVisible, confirmNewGame,
     return (
         <div className="dialog-container">
             <dialog className={`dialog`}>
-                <h2>New Game Setup</h2>
-                <label>Number of Players</label>
-                <input type="number" 
-                    value ={playerCount}
+                <h2 className='heading'>New Game Setup</h2>
+                Number of Players:
+                <input 
+                    className="input"
+                    type="number" 
+                    value={playerCount}
                     min={2}
                     max={6}
                     onChange={(e) => setPlayerCount(parseInt(e.target.value, 10))}
@@ -148,9 +150,10 @@ const NewGameDialog: React.FC<NewGameDialogProps> = ({isVisible, confirmNewGame,
                 ))}
                 <></>
                 <br/>
-                <input type="checkbox" id="randomAssignment" checked={gameOptions.randomAssignment} onChange={(e) => setGameOptions({...gameOptions, randomAssignment: e.target.checked})} />
+                <input className="m-1" type="checkbox" id="randomAssignment" checked={gameOptions.randomAssignment} onChange={(e) => setGameOptions({...gameOptions, randomAssignment: e.target.checked})} />
                 <label htmlFor="randomAssignment">Random Assignment</label>
-                <input type="checkbox" id="neutralArmies" checked={gameOptions.neutralArmies} onChange={(e) => setGameOptions({...gameOptions, neutralArmies: e.target.checked})} />
+                <br/>
+                <input className="m-1" type="checkbox" id="neutralArmies" checked={gameOptions.neutralArmies} onChange={(e) => setGameOptions({...gameOptions, neutralArmies: e.target.checked})} />
                 <label htmlFor="neutralArmies">Neutral Armies</label>
                 <br/>
                 <hr/>   

@@ -19,6 +19,7 @@ import OpenGameButton from "../components/Buttons/OpenGameButton"
 import OpenGameDialog from "../components/Dialog/OpenGameDialog";
 import QuitGameButton from "../components/Buttons/QuitGameButton";
 import QuitGameDialog from "../components/Dialog/QuitGameDialog";
+import { GameMenuButton } from "@/components/Buttons/GameMenuButton";
 
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
@@ -375,7 +376,12 @@ export default function GameState() {
         ); 
     } else {
     return (
-        <div className="globe" key = {safeGlobe.id}>
+        <div className="w-full justify-content-center align-self-center align-items-center" key = {safeGlobe.id}>
+            <GameMenuButton 
+                newGame={newGame}
+                openGame={openGame}
+                quitGame={quitGame}
+            />
             <NewGameButton 
                 newGame={newGame}
             />
@@ -404,7 +410,7 @@ export default function GameState() {
             <br/>
             Save Name = {safeGameState.saveName} <br/>
             Globe Name: {safeGlobe.name} | Max Players: {safeGlobe.playerMax} <br/>
-            <Globe 
+            <Globe
                 id={safeGlobe.id}
                 turnData={safeGlobe.turnData}
                 players={safeGameState.players}

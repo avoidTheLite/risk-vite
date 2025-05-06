@@ -1,3 +1,4 @@
+
 .country {
     cursor: pointer;
     border: 1px solid #999;
@@ -7,10 +8,10 @@
     }
     &.blue{
       fill: rgb(2, 2, 96);
-    };
+    }
     &.gray{
       fill: gray;
-    };
+    }
     &.green {
       fill: darkgreen;
     }
@@ -46,7 +47,7 @@
 stroke: #000000;
 stroke-width: 2;
 stroke-opacity: 0.7;
-stroke-dasharray: 4,8
+stroke-dasharray: 4,8;
 }
 .map-connections-outline{
   stroke: #ffffff;

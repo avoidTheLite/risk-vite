@@ -1,4 +1,5 @@
 import '../Globe/Globe.css'
+import { Button } from "@/components/ui/button"
 interface EndTurnButton {
     endTurn: () => void
 }
@@ -8,7 +9,7 @@ interface EndTurnButtonProps {
 }
 const EndTurnButton: React.FC<EndTurnButtonProps> = ({endTurn}) => {
     return (
-        <button className="overlay-button"onClick={endTurn} >End Turn</button>
+        <Button onClick={endTurn} >End Turn</Button>
     )
 }
 

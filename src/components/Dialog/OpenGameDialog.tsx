@@ -16,7 +16,7 @@ const OpenGameDialog = ({isVisible, confirmOpenGame, cancel, playerIDs}: OpenGam
     return (
         <div className="dialog-container">
             <dialog className={`dialog`}>
-                <h2>Opening Game: Select Player Slots</h2>
+                <h2 className='heading'>Opening Game</h2>
                 <PlayerSlotSelector
                     playerSlots={playerIDs}
                     selectedPlayerSlots={selectedPlayerSlots}

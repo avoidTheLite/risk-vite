@@ -50,8 +50,9 @@ const AttackDialog: React.FC<AttackDialogProps> = ({isVisible, confirmAttack, ca
     return (
         <div className="dialog-container">
             <dialog className={`dialog`}>
+                <h2 className='heading'>Attack</h2>
                 Attack Dialog - How many armies: {troopCount}? <br/> <br/>
-                <input type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
+                <input className="input" type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
                 <br/>
                 <button onClick={() => incrementTroopCount(-1)}>-1</button>
                 <button onClick={() => incrementTroopCount(1)}>+1</button>
