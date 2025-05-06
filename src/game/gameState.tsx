@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import riskLogo from '../assets/risk.png';
 import mockAvailableCommands from "../common/util/test/mockAvailableCommands-deploy";
 import { Country } from "../components/Globe/GameMap";
 import Globe from "../components/Globe/Globe";
@@ -347,10 +348,18 @@ export default function GameState() {
 
     }, [gameState, countries, turnData]);
 
-    if (!isReady || !safeGameState || !safeGlobe || !Array.isArray(countries)) {
+    if (!isReady || !safeGameState || !safeGlobe || !turnData || !Array.isArray(countries)) {
         console.log(`countries: ${JSON.stringify(countries)}`);
         return (
             <>
+                <div>
+                    <a href="https://www.hasbro.com/common/instruct/risk.pdf" target="_blank">
+                        <img src={riskLogo} className="logo" alt="Risk logo" />
+                    </a>
+                </div>
+                <p className="read-the-docs">
+                    Click the Risk Logo above to read the rules of the game
+                </p>
                 <h1>Risk: The Board Game</h1>
                 <NewGameDialog
                     isVisible={newGameDialogVisible}
@@ -377,29 +386,42 @@ export default function GameState() {
     } else {
     return (
         <div className="w-full justify-content-center align-self-center align-items-center" key = {safeGlobe.id}>
-            <GameMenuButton 
-                newGame={newGame}
-                openGame={openGame}
-                quitGame={quitGame}
-            />
-            <NewGameButton 
-                newGame={newGame}
-            />
+            <div className="flex justify-between">
+                <div className="flex text-sm" >
+                    {safeGameState.saveName} <br/>
+                    Globe Name: {safeGlobe.name} | Max Players: {safeGlobe.playerMax} <br/>
+                </div>
+                <div className="globe-info">
+                    <span className="globe-content">
+                        <div>
+                        Game Phase: {turnData.phase} <br/>
+                        Turn: {turnData.turn} ({turnData.turnTracker.phase})<br/>
+                        </div>
+                        {safeGameState.players.map((player) => (
+                            <div key={player.id}> 
+                                {player.name} | {player.color} | Armies: {player.armies}
+                                
+                            </div>
+                        ))}
+                    </span>
+                </div>
+                <div className="flex justify-between">
+                    <GameMenuButton 
+                        newGame={newGame}
+                        openGame={openGame}
+                        quitGame={quitGame}
+                    />
+                </div>
+            </div>
             <NewGameDialog
                 isVisible={newGameDialogVisible}
                 confirmNewGame={confirmNewGame}
                 cancel={cancel}
             />
-            <QuitGameButton 
-                quitGame={quitGame}
-            />
             <QuitGameDialog
                 isVisible={quitGameDialogVisible}
                 confirmQuitGame={confirmQuitGame}
                 cancel={cancel}
-            />
-            <OpenGameButton
-                openGame={openGame}
             />
             <OpenGameDialog
                 isVisible={openGameDialogVisible}
@@ -408,8 +430,6 @@ export default function GameState() {
                 playerIDs={safeGameState.players.map((players) => players.id)}
             />
             <br/>
-            Save Name = {safeGameState.saveName} <br/>
-            Globe Name: {safeGlobe.name} | Max Players: {safeGlobe.playerMax} <br/>
             <Globe
                 id={safeGlobe.id}
                 turnData={safeGlobe.turnData}

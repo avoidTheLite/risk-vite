@@ -9,7 +9,7 @@ interface EndTurnButtonProps {
 }
 const EndTurnButton: React.FC<EndTurnButtonProps> = ({endTurn}) => {
     return (
-        <Button onClick={endTurn} >End Turn</Button>
+        <Button className="bottom-0" onClick={endTurn} >End Turn</Button>
     )
 }
 
