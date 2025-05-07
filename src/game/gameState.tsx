@@ -386,15 +386,15 @@ export default function GameState() {
     } else {
     return (
         <div className="w-full justify-content-center align-self-center align-items-center" key = {safeGlobe.id}>
-            <div className="flex justify-between">
+            <div className="flex flex-wrap justify-between">
                 <div className="flex text-sm" >
                     {safeGameState.saveName} <br/>
                     Globe Name: {safeGlobe.name} | Max Players: {safeGlobe.playerMax} <br/>
+                    Game Phase: {turnData.phase} <br/>
                 </div>
                 <div className="globe-info">
                     <span className="globe-content">
                         <div>
-                        Game Phase: {turnData.phase} <br/>
                         Turn: {turnData.turn} ({turnData.turnTracker.phase})<br/>
                         </div>
                         {safeGameState.players.map((player) => (
@@ -406,7 +406,7 @@ export default function GameState() {
                     </span>
                 </div>
                 <div className="flex justify-between">
-                    <GameMenuButton 
+                    <GameMenuButton
                         newGame={newGame}
                         openGame={openGame}
                         quitGame={quitGame}

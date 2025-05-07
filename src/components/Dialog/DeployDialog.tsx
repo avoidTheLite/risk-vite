@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import React from "react";
 import './dialog.css'
+import { Button } from "@/components/ui/button";
 
 interface DeployDialog {
     id: number;
@@ -47,12 +48,12 @@ const DeployDialog: React.FC<DeployDialogProps> = ({isVisible, confirmDeploy, ca
                 Deploy to {deployTarget} - How many armies: {troopCount}? <br/> <br/>
                 <input className="input" type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
                 <br/>
-                <button onClick={() => incrementTroopCount(-5)}>-5</button>
-                <button onClick={() => incrementTroopCount(-1)}>-1</button>
-                <button onClick={() => incrementTroopCount(1)}>+1</button>
-                <button onClick={() => incrementTroopCount(5)}>+5</button>
+                <Button onClick={() => incrementTroopCount(-5)}>-5</Button>
+                <Button onClick={() => incrementTroopCount(-1)}>-1</Button>
+                <Button onClick={() => incrementTroopCount(1)}>+1</Button>
+                <Button onClick={() => incrementTroopCount(5)}>+5</Button>
                 <br/>
-                <button onClick={() => confirmDeploy(deployTarget, troopCount)}>Deploy</button>
+                <Button onClick={() => confirmDeploy(deployTarget, troopCount)}>Deploy</Button>
                 <button onClick={cancel}>Cancel</button>
             </dialog>
         </div>

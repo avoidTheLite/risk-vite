@@ -23,13 +23,13 @@
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(0.23 0.0063 17.62);
   --popover-foreground: oklch(1 0 0);
-  --primary: oklch(0.208 0.042 265.755);
+  --primary: oklch(0.19 0.0549 283.05);
   --primary-foreground: oklch(0.984 0.003 247.858);
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.26 0.0494 152.01);
   --muted: oklch(0.968 0.007 247.896);
   --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.279 0.041 260.031);
+  --accent: oklch(0.18 0.0325 266.62);
   --accent-foreground: oklch(0.61 0.214553 275.6035);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.61 0.214553 275.6035);
@@ -82,17 +82,17 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--color-primary);
   cursor: pointer;
   transition: border-color 0.25s;
   margin: 0.25rem 0.25rem 0.25rem 0.25rem;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--color-border);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto #646cff;
+  outline: 0.1rem auto #646cff;
 }
 
 @theme inline {
