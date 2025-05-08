@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PlayerSlotSelector from "./PlayerSlotSelector";
+import { Button } from "@/components/ui/button";
 
 interface OpenGameDialogProps {
     isVisible: boolean;
@@ -22,8 +23,8 @@ const OpenGameDialog = ({isVisible, confirmOpenGame, cancel, playerIDs}: OpenGam
                     selectedPlayerSlots={selectedPlayerSlots}
                     setSelectedPlayerSlots={setSelectedPlayerSlots}
                 />
-                <button onClick={() => confirmOpenGame(selectedPlayerSlots)}>Open Game</button>
-                <button onClick={cancel}>Cancel</button>
+                <Button onClick={() => confirmOpenGame(selectedPlayerSlots)}>Open Game</Button>
+                <Button onClick={cancel}>Cancel</Button>
             </dialog>
         </div>
     )

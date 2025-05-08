@@ -54,7 +54,7 @@ const DeployDialog: React.FC<DeployDialogProps> = ({isVisible, confirmDeploy, ca
                 <Button onClick={() => incrementTroopCount(5)}>+5</Button>
                 <br/>
                 <Button onClick={() => confirmDeploy(deployTarget, troopCount)}>Deploy</Button>
-                <button onClick={cancel}>Cancel</button>
+                <Button onClick={cancel}>Cancel</Button>
             </dialog>
         </div>
     )

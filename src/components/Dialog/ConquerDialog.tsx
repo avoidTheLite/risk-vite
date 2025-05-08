@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import React from "react";
 import { Country } from "../Globe/GameMap";
 import './dialog.css'
+import { Button } from "@/components/ui/button";
 
 interface ConquerDialog {
     id: number;
@@ -50,13 +51,13 @@ const ConquerDialog: React.FC<ConquerDialogProps> = ({isVisible, confirmConquer,
                 Conquer Dialog - How many armies would you like to move: {troopCount}? <br/> <br/>
                 <input className="input" type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
                 <br/>
-                <button onClick={() => incrementTroopCount(-5)}>-5</button>
-                <button onClick={() => incrementTroopCount(-1)}>-1</button>
-                <button onClick={() => incrementTroopCount(1)}>+1</button>
-                <button onClick={() => incrementTroopCount(5)}>+5</button>
+                <Button onClick={() => incrementTroopCount(-5)}>-5</Button>
+                <Button onClick={() => incrementTroopCount(-1)}>-1</Button>
+                <Button onClick={() => incrementTroopCount(1)}>+1</Button>
+                <Button onClick={() => incrementTroopCount(5)}>+5</Button>
                 <br/>
-                <button onClick={() => confirmConquer(troopCount)}>Conquer</button>
-                <button onClick={cancel}>Cancel</button>
+                <Button onClick={() => confirmConquer(troopCount)}>Conquer</Button>
+                <Button onClick={cancel}>Cancel</Button>
             </dialog>
         </div>
     )

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { Country } from "../Globe/GameMap";
 import './dialog.css'
+import { Button } from "@/components/ui/button";
 
 interface AttackDialog {
     id: number;
@@ -54,11 +55,11 @@ const AttackDialog: React.FC<AttackDialogProps> = ({isVisible, confirmAttack, ca
                 Attack Dialog - How many armies: {troopCount}? <br/> <br/>
                 <input className="input" type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
                 <br/>
-                <button onClick={() => incrementTroopCount(-1)}>-1</button>
-                <button onClick={() => incrementTroopCount(1)}>+1</button>
+                <Button onClick={() => incrementTroopCount(-1)}>-1</Button>
+                <Button onClick={() => incrementTroopCount(1)}>+1</Button>
                 <br/>
-                <button onClick={() => confirmAttack(troopCount)}>Attack</button>
-                <button onClick={cancel}>Cancel</button>
+                <Button onClick={() => confirmAttack(troopCount)}>Attack</Button>
+                <Button onClick={cancel}>Cancel</Button>
             </dialog>
         </div>
     )

@@ -1,4 +1,4 @@
-
+import { Button } from "@/components/ui/button";
 
 interface QuitGameDialogProps {
     isVisible: boolean;
@@ -15,8 +15,8 @@ const QuitGameDialog = ({isVisible, confirmQuitGame, cancel}: QuitGameDialogProp
             <dialog className={`dialog`}>
                 <h2 className='heading'>Quit Game?</h2>
                 <p className="m-1">Are you sure you want to quit the game?</p>
-                <button onClick={() => confirmQuitGame()}>Yes</button>
-                <button onClick={cancel}>Cancel</button>
+                <Button onClick={() => confirmQuitGame()}>Yes</Button>
+                <Button onClick={cancel}>Cancel</Button>
             </dialog>
         </div>
     )
