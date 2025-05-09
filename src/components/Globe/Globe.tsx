@@ -51,7 +51,7 @@ const Globe: React.FC<GlobeProps> = ({turnData, players, countries, getClassName
                         </span>
                     </span>
                 </div>
-                <EndTurnButton endTurn={endTurn} />
+                
             </div>
             <TransformWrapper 
                 initialScale={1}
@@ -60,7 +60,7 @@ const Globe: React.FC<GlobeProps> = ({turnData, players, countries, getClassName
                 centerOnInit
                 limitToBounds
                 smooth={false}
-                wheel={{ step: 0.1 }}
+                wheel={{ wheelDisabled: true }}
                 pinch={{ step: 0.1 }}
                 doubleClick={{ disabled: false }}
                 panning={{ velocityDisabled: true }}
@@ -82,6 +82,7 @@ const Globe: React.FC<GlobeProps> = ({turnData, players, countries, getClassName
                         />
                     </MiniMap>
                     <Controls />
+                    <EndTurnButton endTurn={endTurn} />
                 </div>
                 <div className="mt-1 mb-1 border-accent border-2">
                     <TransformComponent>

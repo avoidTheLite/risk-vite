@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 .dialog-container{
-    @apply fixed block items-center justify-center z-1000 w-full;
+    @apply fixed inset-0 flex-1 items-center justify-center z-1000 h-[80vh] w-full p-4;
 }
 
 .dialog{
-    @apply fixed block top-1/4 left-1/2 -translate-x-1/2 z-1000 p-1 place-content-center text-(--popover-foreground) bg-(--popover);
+    @apply block max-h-[90vh] left-1/2 -translate-x-1/2 z-1000 p-2 rounded-xl place-content-center text-(--popover-foreground) bg-(--popover) overflow-y-auto  shadow-lg;
 }
 
 .label{
@@ -16,9 +16,9 @@
     @apply m-1 text-center font-bold text-2xl;
 }
 
-.input{
+/* .input{
     @apply m-1 bg-(--input) text-(--input-foreground);
-}
+} */
 
 .notification{
     text-align: center;

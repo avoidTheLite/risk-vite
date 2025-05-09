@@ -33,7 +33,7 @@
   --accent-foreground: oklch(0.61 0.214553 275.6035);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.61 0.214553 275.6035);
-  --input: oklch(1 0 0 / 15%);
+  --input: oklch(0.27 0 none);
   --ring: oklch(0.61 0.214553 275.6035);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -95,6 +95,14 @@ button:focus-visible {
   outline: 0.1rem auto #646cff;
 }
 
+input, select {
+  @apply m-1 bg-(--input) text-(--input-foreground) rounded-md;
+}
+
+input:hover, select:hover {
+  @apply border-1 border-(--border) 
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -150,8 +158,8 @@ button:focus-visible {
   --accent-foreground: oklch(0.984 0.003 247.858);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(0.61 0.214553 275.6035);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.61 0.214553 275.6035);
+  --input: oklch(0.33 0 0);
+  --ring: oklch(0.61 0.214553 275.6035);  
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
