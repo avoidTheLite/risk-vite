@@ -21,6 +21,8 @@ import QuitGameDialog from "../components/Dialog/QuitGameDialog";
 import ViewCardsDialog from "@/components/Dialog/ViewCardsDialog";
 import { GameMenuButton } from "@/components/Buttons/GameMenuButton";
 import { CardData } from "@/common/types";
+import ViewSavedGamesDialog from "@/components/Dialog/ViewSavedGamesDialog";
+import { LoadSavedGameButton } from "@/components/Buttons/LoadSavedGameButton";
 
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
@@ -38,6 +40,7 @@ export default function GameState() {
     const targetCountry = useRef<number | null>(null);
     const [attackDialogVisible, setAttackDialogVisible] = useState(false);
     const [newGameDialogVisible, setNewGameDialogVisible] = useState(false);
+    const [viewSavedGamesDialogVisible, setViewSavedGamesDialogVisible] = useState(false);
     const [viewGamesDialogVisible, setViewGamesDialogVisible] = useState(false);
     const [conquerDialogVisible, setConquerDialogVisible] = useState(false);
     const [moveDialogVisible, setMoveDialogVisible] = useState(false);
@@ -241,6 +244,20 @@ export default function GameState() {
         setNewGameDialogVisible(false);
     }
 
+    function loadGame() {
+        setViewSavedGamesDialogVisible(true);
+    }
+
+    function confirmLoadGame(saveName: string) {
+        const loadGameMessage = {
+            action: "loadGame" as WsActions,
+            message: "Load Game",
+            saveName: saveName
+        }
+        sendMessage(loadGameMessage);
+        setViewSavedGamesDialogVisible(false);
+    }
+
     function confirmJoinGame(saveName: string, playerSlots: number[]) {
         console.log('joining game ' + saveName)
         const joinGameMessage = {
@@ -320,6 +337,7 @@ export default function GameState() {
         setOpenGameDialogVisible(false);
         setQuitGameDialogVisible(false);
         setViewCardsDialogVisible(false);
+        setViewSavedGamesDialogVisible(false);
     }
 
     useEffect(() => {
@@ -383,6 +401,14 @@ export default function GameState() {
                     newGame={newGame}
                     
                 />
+                <ViewSavedGamesDialog
+                    isVisible={viewSavedGamesDialogVisible}
+                    confirmLoadGame={confirmLoadGame}
+                    cancel={cancel}
+                />
+                <LoadSavedGameButton
+                    loadGame={loadGame}
+                />
                 <ViewGamesDialog
                     isVisible={viewGamesDialogVisible}
                     openGameData={openGames}
@@ -423,6 +449,7 @@ export default function GameState() {
                         newGame={newGame}
                         openGame={openGame}
                         quitGame={quitGame}
+                        loadGame={loadGame}
                     />
                 </div>
             </div>
@@ -430,6 +457,11 @@ export default function GameState() {
                 isVisible={newGameDialogVisible}
                 confirmNewGame={confirmNewGame}
                 cancel={cancel}
+            />
+            <ViewSavedGamesDialog
+                    isVisible={viewSavedGamesDialogVisible}
+                    confirmLoadGame={confirmLoadGame}
+                    cancel={cancel}
             />
             <QuitGameDialog
                 isVisible={quitGameDialogVisible}
