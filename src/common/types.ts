@@ -19,7 +19,7 @@ export interface GameData {
     turnTracker: TurnTracker;
     phase: Phase;
     activePlayerIndex: number;
-    cardsAvailable: Card[];
+    cardsAvailable: CardData[];
     matches?: number;
     name?: string;
     created_at?: string;
@@ -64,11 +64,11 @@ export interface Player {
     color: string;
     armies: number;
     gameID?: string;
-    cards?: Card[];
+    cards?: CardData[];
 }
 
 
-export interface Card {
+export interface CardData {
     id: number;
     name: string;
     symbol: "infantry" | "cavalry" | "artillery" | "wildcard";
@@ -131,7 +131,7 @@ export interface AvailableCommand {
     moveOptions?: Movement[];
     attackOptions?: Engagement[];
     conquerOption?: Engagement;
-    cardMatchOptions?: Card[][];
+    cardMatchOptions?: CardData[][];
 }
 
 export interface AvailableCommands {
@@ -154,7 +154,7 @@ export interface WsRequest {
         movement?: Movement;
         engagement?: Engagement;
         gameOptions?: GameOptions;
-        cards?: Card[];
+        cards?: CardData[];
     }
 }
 
@@ -170,7 +170,7 @@ export interface WsRequestData {
     movement?: Movement;
     engagement?: Engagement;
     gameOptions?: GameOptions;
-    cards?: Card[];
+    cards?: CardData[];
 }
 
 export interface WsResponse {
@@ -182,7 +182,7 @@ export interface WsResponse {
         movement?: Movement;
         gameState?: GameData;
         gameOptions?: GameOptions;
-        cards?: Card[];
+        cards?: CardData[];
         availableCommands?: AvailableCommands;
     }
 }

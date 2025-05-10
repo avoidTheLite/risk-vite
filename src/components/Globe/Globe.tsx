@@ -6,6 +6,8 @@ import "./Globe.css"
 import EndTurnButton from "../Buttons/EndTurnButton";
 import { Button } from "@/components/ui/button";
 import { TransformWrapper, TransformComponent, MiniMap, useControls } from "react-zoom-pan-pinch";
+import ViewCardsButton from "../Buttons/ViewCardsButton";
+import { CardData } from "../../common/types";
 
 interface Globe {
     id: string;
@@ -27,6 +29,8 @@ interface GlobeProps {
     initiateAttack: (id: number) => void;
     initiateMove: (id: number) => void;
     endTurn: () => void
+    viewCards: (playerID: number) => void
+    playerCards: CardData[]
 }
 const Controls = () => {
     const { zoomIn, zoomOut, resetTransform } = useControls();
@@ -40,7 +44,7 @@ const Controls = () => {
     );
   };
     
-const Globe: React.FC<GlobeProps> = ({turnData, players, countries, getClassName, clearTargets, highlightTargets, updateCountries, initiateAttack, initiateMove, endTurn}) => {
+const Globe: React.FC<GlobeProps> = ({turnData, players, countries, getClassName, clearTargets, highlightTargets, updateCountries, initiateAttack, initiateMove, endTurn, viewCards, playerCards}) => {
     return (
         <div className="globe-container">
             <div className="globe-info-and-controls">
@@ -82,6 +86,10 @@ const Globe: React.FC<GlobeProps> = ({turnData, players, countries, getClassName
                         />
                     </MiniMap>
                     <Controls />
+                    <ViewCardsButton 
+                        viewCards={viewCards}
+                        playerID={turnData.activePlayerIndex}
+                        playerCards={playerCards} />
                     <EndTurnButton endTurn={endTurn} />
                 </div>
                 <div className="mt-1 mb-1 border-accent border-2">

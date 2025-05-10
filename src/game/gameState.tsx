@@ -16,11 +16,11 @@ import ConquerDialog from "../components/Dialog/ConquerDialog";
 import MoveDialog from "../components/Dialog/MoveDialog";
 import ViewGamesButton from "../components/Buttons/ViewGamesButton";
 import ViewGamesDialog from "../components/Dialog/ViewGamesDialog";
-import OpenGameButton from "../components/Buttons/OpenGameButton"
 import OpenGameDialog from "../components/Dialog/OpenGameDialog";
-import QuitGameButton from "../components/Buttons/QuitGameButton";
 import QuitGameDialog from "../components/Dialog/QuitGameDialog";
+import ViewCardsDialog from "@/components/Dialog/ViewCardsDialog";
 import { GameMenuButton } from "@/components/Buttons/GameMenuButton";
+import { CardData } from "@/common/types";
 
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
@@ -43,6 +43,8 @@ export default function GameState() {
     const [moveDialogVisible, setMoveDialogVisible] = useState(false);
     const [openGameDialogVisible, setOpenGameDialogVisible] = useState(false);
     const [quitGameDialogVisible, setQuitGameDialogVisible] = useState(false);
+    const [viewCardsDialogVisible, setViewCardsDialogVisible] = useState(false);
+    const [playerCards , setPlayerCards] = useState<CardData[]>([]);
     const { isReady, safeGameState, safeGlobe } = useGameReady(gameState, globe);
 
     
@@ -276,6 +278,16 @@ export default function GameState() {
         setOpenGameDialogVisible(false);
     }
 
+    function viewCards(playerID: number) {
+        if (!gameState?.players[playerID].cards) return;
+        console.log('Viewing Cards for player ' + playerID)
+        setPlayerCards(gameState!.players[playerID].cards);
+        setViewCardsDialogVisible(true);
+    }
+
+    function submitCardMatch(selectedCards: CardData[]) {
+        setViewCardsDialogVisible(false);
+    }
     function endTurn() {
         if (!hasStartedGame(gameState, globe)) return;
         console.log("ending turn");
@@ -307,6 +319,7 @@ export default function GameState() {
         setViewGamesDialogVisible(false);
         setOpenGameDialogVisible(false);
         setQuitGameDialogVisible(false);
+        setViewCardsDialogVisible(false);
     }
 
     useEffect(() => {
@@ -442,6 +455,8 @@ export default function GameState() {
                 initiateAttack={initiateAttack}
                 initiateMove={initiateMove}
                 endTurn={endTurn} 
+                viewCards={viewCards}
+                playerCards={playerCards}
             />
             <div>
             <DeployDialog
@@ -473,6 +488,12 @@ export default function GameState() {
                 cancel={cancel}
                 sourceCountry={sourceCountry.current}
                 countries={countries}
+            />
+            <ViewCardsDialog 
+                isVisible={viewCardsDialogVisible}
+                submitCardMatch={submitCardMatch}
+                playerCards={playerCards}
+                cancel={cancel}
             />
             </div>
         </div>
