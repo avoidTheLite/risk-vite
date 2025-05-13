@@ -1,6 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import DataTable, { TableColumn } from 'react-data-table-component';
+import DataTable, { TableColumn, createTheme } from 'react-data-table-component';
 import { LoadGameData, LoadGameTableData } from '../../common/types';
+
+createTheme(
+    'dark',
+    {
+        text: {
+			primary: "var(--color-foreground)",
+			secondary: '#2aa198',
+		},
+		background: {
+			default: 'var(--color-background)',
+		},
+		context: {
+			background: 'var(--color-accent)',
+			text: 'var(--color-accent-foreground)',
+		},
+		divider: {
+			default: 'var(--color-accent-foreground)',
+		},
+		button: {
+			default: '#2aa198',
+			hover: 'rgba(0,0,0,.08)',
+			focus: 'rgba(255,255,255,.12)',
+			disabled: 'rgba(255, 255, 255, .34)',
+		},
+		sortFocus: {
+			default: '#2aa198',
+		},
+    }
+)    
 
 const columns: TableColumn<LoadGameTableData>[] = [
     {
@@ -72,6 +101,7 @@ const GamesTable: React.FC<GamesTableProps> = ({openGameData, setSelectedGame}) 
         columns={columns}
         data={rows}
         selectableRows
+        theme="dark"
         selectableRowsSingle
         onSelectedRowsChange={handleChange}
         />;
