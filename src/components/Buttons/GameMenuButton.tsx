@@ -18,13 +18,15 @@ type GameMenuButtonProps = {
     newGame: () => void;
     openGame?: () => void;
     quitGame?: () => void;
+    loadGame?: () => void;
   };
 
 export function GameMenuButton(
     {
         newGame,
         openGame,
-        quitGame
+        quitGame,
+        loadGame
     }
 : GameMenuButtonProps) {
     return (
@@ -44,6 +46,9 @@ export function GameMenuButton(
           <DropdownMenuGroup>
             <DropdownMenuItem onSelect={newGame}>
               New Game
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={loadGame}>
+              Load Game
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={quitGame}>
               Quit Game

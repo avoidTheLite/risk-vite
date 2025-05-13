@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { GameOptions, Player } from "../../common/types";
 import './dialog.css'
+import { Button } from "@/components/ui/button";
 
 // interface NewGameDialog {
 //     isVisible: boolean
@@ -45,10 +46,10 @@ function PlayerInput({ index, name, color, onChangeName, onChangeColor, players 
         <div>
             <label className="label">Player {index}:</label><br/>
             Name:
-            <input className="input" type="text" value={name} onChange={(e) => onChangeName(index, e.target.value)}/>
+            <input type="text" value={name} onChange={(e) => onChangeName(index, e.target.value)}/>
             <br/>
             Color:
-            <select className="input" value={color} onChange={(e) => onChangeColor(index, e.target.value)}>
+            <select value={color} onChange={(e) => onChangeColor(index, e.target.value)}>
                 <option value="">Select Color</option>
                     {supportedColors.map((c) => (
                         <option key={c} value={c} disabled={takenColors.includes(c)}>
@@ -56,7 +57,6 @@ function PlayerInput({ index, name, color, onChangeName, onChangeColor, players 
                         </option>
                     ))}
             </select>
-            <br/>
             <br/>
         </div>
     );
@@ -125,18 +125,25 @@ const NewGameDialog: React.FC<NewGameDialogProps> = ({isVisible, confirmNewGame,
     }
     return (
         <div className="dialog-container">
-            <dialog className={`dialog`}>
-                <h2 className='heading'>New Game Setup</h2>
-                Number of Players:
+            <dialog className={`dialog`}
+                role="dialog"
+                id="new-game-dialog"
+                aria-labelledby="dialog-title"
+                aria-describedby="dialog-description"
+                aria-modal="true">
+                <h1 id="dialog-title"className='heading'>New Game Setup</h1>
+                <p id="dialog-description">
+                    Create a new game with the following options
+                </p>
+                    Number of Players:
                 <input 
-                    className="input"
                     type="number" 
                     value={playerCount}
                     min={2}
                     max={6}
                     onChange={(e) => setPlayerCount(parseInt(e.target.value, 10))}
                     />
-                <br/> <br/>
+                <br/>
                 {players.map((player, index) => (
                     <PlayerInput 
                     key={index}
@@ -157,8 +164,8 @@ const NewGameDialog: React.FC<NewGameDialogProps> = ({isVisible, confirmNewGame,
                 <label htmlFor="neutralArmies">Neutral Armies</label>
                 <br/>
                 <hr/>   
-                <button onClick={startGame}>Start Game</button>
-                <button onClick={cancel}>Cancel</button>
+                <Button onClick={startGame}>Start Game</Button>
+                <Button onClick={cancel}>Cancel</Button>
             </dialog>
         </div>
     )

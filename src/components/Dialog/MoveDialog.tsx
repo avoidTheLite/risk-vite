@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { Country } from "../Globe/GameMap";
 import './dialog.css'
+import { Button } from "@/components/ui/button";
 
 interface MoveDialog {
     id: number;
@@ -50,13 +51,13 @@ const MoveDialog: React.FC<MoveDialogProps> = ({isVisible, confirmMove, cancel, 
                 Move Dialog - How many armies would you like to move: {troopCount}? <br/> <br/>
                 <input className="input" type="number" value={troopCount} onChange={(e) => setTroopCount(parseInt(e.target.value, 10))} />
                 <br/>
-                <button onClick={() => incrementTroopCount(-5)}>-5</button>
-                <button onClick={() => incrementTroopCount(-1)}>-1</button>
-                <button onClick={() => incrementTroopCount(1)}>+1</button>
-                <button onClick={() => incrementTroopCount(5)}>+5</button>
+                <Button onClick={() => incrementTroopCount(-5)}>-5</Button>
+                <Button onClick={() => incrementTroopCount(-1)}>-1</Button>
+                <Button onClick={() => incrementTroopCount(1)}>+1</Button>
+                <Button onClick={() => incrementTroopCount(5)}>+5</Button>
                 <br/>
-                <button onClick={() => confirmMove(troopCount)}>Move</button>
-                <button onClick={cancel}>Cancel</button>
+                <Button onClick={() => confirmMove(troopCount)}>Move</Button>
+                <Button onClick={cancel}>Cancel</Button>
             </dialog>
         </div>
     )

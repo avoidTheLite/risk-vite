@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import riskLogo from '../assets/risk.png';
 import mockAvailableCommands from "../common/util/test/mockAvailableCommands-deploy";
 import { Country } from "../components/Globe/GameMap";
 import Globe from "../components/Globe/Globe";
@@ -15,16 +16,18 @@ import ConquerDialog from "../components/Dialog/ConquerDialog";
 import MoveDialog from "../components/Dialog/MoveDialog";
 import ViewGamesButton from "../components/Buttons/ViewGamesButton";
 import ViewGamesDialog from "../components/Dialog/ViewGamesDialog";
-import OpenGameButton from "../components/Buttons/OpenGameButton"
 import OpenGameDialog from "../components/Dialog/OpenGameDialog";
-import QuitGameButton from "../components/Buttons/QuitGameButton";
 import QuitGameDialog from "../components/Dialog/QuitGameDialog";
+import ViewCardsDialog from "@/components/Dialog/ViewCardsDialog";
 import { GameMenuButton } from "@/components/Buttons/GameMenuButton";
+import { CardData } from "@/common/types";
+import ViewSavedGamesDialog from "@/components/Dialog/ViewSavedGamesDialog";
+import { LoadSavedGameButton } from "@/components/Buttons/LoadSavedGameButton";
 
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
 export default function GameState() {
-    const { gameState, openGames, sendMessage, closeWebSocket } = useWebsocket();
+    const { gameState, openGames, savedGames, sendMessage, closeWebSocket } = useWebsocket();
     const [countries, setCountries] = useState<Country[] | null>(null);
     const [turnData, setTurnData] = useState<Turn | null>(null)
     const [availableCommands, setAvailableCommands] = useState(initialAvailableCommands);
@@ -37,11 +40,14 @@ export default function GameState() {
     const targetCountry = useRef<number | null>(null);
     const [attackDialogVisible, setAttackDialogVisible] = useState(false);
     const [newGameDialogVisible, setNewGameDialogVisible] = useState(false);
+    const [viewSavedGamesDialogVisible, setViewSavedGamesDialogVisible] = useState(false);
     const [viewGamesDialogVisible, setViewGamesDialogVisible] = useState(false);
     const [conquerDialogVisible, setConquerDialogVisible] = useState(false);
     const [moveDialogVisible, setMoveDialogVisible] = useState(false);
     const [openGameDialogVisible, setOpenGameDialogVisible] = useState(false);
     const [quitGameDialogVisible, setQuitGameDialogVisible] = useState(false);
+    const [viewCardsDialogVisible, setViewCardsDialogVisible] = useState(false);
+    const [playerCards , setPlayerCards] = useState<CardData[]>([]);
     const { isReady, safeGameState, safeGlobe } = useGameReady(gameState, globe);
 
     
@@ -238,6 +244,29 @@ export default function GameState() {
         setNewGameDialogVisible(false);
     }
 
+    function refreshSavedGames() {
+        const viewSavedGamesMessage = {
+            action: "viewSavedGames" as WsActions,
+            message: "View Saved Games"
+        }
+        sendMessage(viewSavedGamesMessage);
+    }
+
+    function loadGame() {
+        setViewSavedGamesDialogVisible(true);
+        refreshSavedGames();
+    }
+
+    function confirmLoadGame(saveName: string) {
+        const loadGameMessage = {
+            action: "loadGame" as WsActions,
+            message: "Load Game",
+            saveName: saveName
+        }
+        sendMessage(loadGameMessage);
+        setViewSavedGamesDialogVisible(false);
+    }
+
     function confirmJoinGame(saveName: string, playerSlots: number[]) {
         console.log('joining game ' + saveName)
         const joinGameMessage = {
@@ -275,6 +304,16 @@ export default function GameState() {
         setOpenGameDialogVisible(false);
     }
 
+    function viewCards(playerID: number) {
+        if (!gameState?.players[playerID].cards) return;
+        console.log('Viewing Cards for player ' + playerID)
+        setPlayerCards(gameState!.players[playerID].cards);
+        setViewCardsDialogVisible(true);
+    }
+
+    function submitCardMatch(selectedCards: CardData[]) {
+        setViewCardsDialogVisible(false);
+    }
     function endTurn() {
         if (!hasStartedGame(gameState, globe)) return;
         console.log("ending turn");
@@ -306,6 +345,8 @@ export default function GameState() {
         setViewGamesDialogVisible(false);
         setOpenGameDialogVisible(false);
         setQuitGameDialogVisible(false);
+        setViewCardsDialogVisible(false);
+        setViewSavedGamesDialogVisible(false);
     }
 
     useEffect(() => {
@@ -347,10 +388,18 @@ export default function GameState() {
 
     }, [gameState, countries, turnData]);
 
-    if (!isReady || !safeGameState || !safeGlobe || !Array.isArray(countries)) {
+    if (!isReady || !safeGameState || !safeGlobe || !turnData || !Array.isArray(countries)) {
         console.log(`countries: ${JSON.stringify(countries)}`);
         return (
             <>
+                <div>
+                    <a href="https://www.hasbro.com/common/instruct/risk.pdf" target="_blank">
+                        <img src={riskLogo} className="logo" alt="Risk logo" />
+                    </a>
+                </div>
+                <p className="read-the-docs">
+                    Click the Risk Logo above to read the rules of the game
+                </p>
                 <h1>Risk: The Board Game</h1>
                 <NewGameDialog
                     isVisible={newGameDialogVisible}
@@ -360,6 +409,16 @@ export default function GameState() {
                 <NewGameButton 
                     newGame={newGame}
                     
+                />
+                <ViewSavedGamesDialog
+                    isVisible={viewSavedGamesDialogVisible}
+                    savedGameData={savedGames}
+                    refreshSavedGames={refreshSavedGames}
+                    confirmLoadGame={confirmLoadGame}
+                    cancel={cancel}
+                />
+                <LoadSavedGameButton
+                    loadGame={loadGame}
                 />
                 <ViewGamesDialog
                     isVisible={viewGamesDialogVisible}
@@ -377,29 +436,50 @@ export default function GameState() {
     } else {
     return (
         <div className="w-full justify-content-center align-self-center align-items-center" key = {safeGlobe.id}>
-            <GameMenuButton 
-                newGame={newGame}
-                openGame={openGame}
-                quitGame={quitGame}
-            />
-            <NewGameButton 
-                newGame={newGame}
-            />
+            <div className="flex flex-wrap justify-between">
+                <div className="flex text-sm" >
+                    {safeGameState.saveName} <br/>
+                    Globe Name: {safeGlobe.name} | Max Players: {safeGlobe.playerMax} <br/>
+                    Game Phase: {turnData.phase} <br/>
+                </div>
+                <div className="globe-info">
+                    <span className="globe-content">
+                        <div>
+                        Turn: {turnData.turn} ({turnData.turnTracker.phase})<br/>
+                        </div>
+                        {safeGameState.players.map((player) => (
+                            <div key={player.id}> 
+                                {player.name} | {player.color} | Armies: {player.armies}
+                                
+                            </div>
+                        ))}
+                    </span>
+                </div>
+                <div className="flex justify-between">
+                    <GameMenuButton
+                        newGame={newGame}
+                        openGame={openGame}
+                        quitGame={quitGame}
+                        loadGame={loadGame}
+                    />
+                </div>
+            </div>
             <NewGameDialog
                 isVisible={newGameDialogVisible}
                 confirmNewGame={confirmNewGame}
                 cancel={cancel}
             />
-            <QuitGameButton 
-                quitGame={quitGame}
+            <ViewSavedGamesDialog
+                    isVisible={viewSavedGamesDialogVisible}
+                    savedGameData={savedGames}
+                    refreshSavedGames={refreshSavedGames}
+                    confirmLoadGame={confirmLoadGame}
+                    cancel={cancel}
             />
             <QuitGameDialog
                 isVisible={quitGameDialogVisible}
                 confirmQuitGame={confirmQuitGame}
                 cancel={cancel}
-            />
-            <OpenGameButton
-                openGame={openGame}
             />
             <OpenGameDialog
                 isVisible={openGameDialogVisible}
@@ -408,8 +488,6 @@ export default function GameState() {
                 playerIDs={safeGameState.players.map((players) => players.id)}
             />
             <br/>
-            Save Name = {safeGameState.saveName} <br/>
-            Globe Name: {safeGlobe.name} | Max Players: {safeGlobe.playerMax} <br/>
             <Globe
                 id={safeGlobe.id}
                 turnData={safeGlobe.turnData}
@@ -422,6 +500,8 @@ export default function GameState() {
                 initiateAttack={initiateAttack}
                 initiateMove={initiateMove}
                 endTurn={endTurn} 
+                viewCards={viewCards}
+                playerCards={playerCards}
             />
             <div>
             <DeployDialog
@@ -453,6 +533,12 @@ export default function GameState() {
                 cancel={cancel}
                 sourceCountry={sourceCountry.current}
                 countries={countries}
+            />
+            <ViewCardsDialog 
+                isVisible={viewCardsDialogVisible}
+                submitCardMatch={submitCardMatch}
+                playerCards={playerCards}
+                cancel={cancel}
             />
             </div>
         </div>

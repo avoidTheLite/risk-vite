@@ -3,6 +3,7 @@ import React from "react";
 import GamesTable from "../Table/GamesTable";
 import { LoadGameData, LoadGameTableData } from "../../common/types";
 import PlayerSlotSelector from "./PlayerSlotSelector";
+import { Button } from "@/components/ui/button";
 
 interface ViewGamesDialogProps {
     isVisible: boolean;
@@ -39,9 +40,9 @@ const ViewGamesDialog: React.FC<ViewGamesDialogProps> = ({isVisible, openGameDat
                     selectedPlayerSlots={selectedPlayerSlots}
                     setSelectedPlayerSlots={setSelectedPlayerSlots}
                 />
-                <button onClick={() => confirmJoinGame(selectedGame!.saveName, selectedPlayerSlots)}>Join Game</button>
-                <button onClick={cancel}>Cancel</button>
-                <button onClick={refreshOpenGames}>Refresh</button>
+                <Button onClick={() => confirmJoinGame(selectedGame!.saveName, selectedPlayerSlots)}>Join Game</Button>
+                <Button onClick={cancel}>Cancel</Button>
+                <Button onClick={refreshOpenGames}>Refresh</Button>
             </dialog>
         </div>
     )
