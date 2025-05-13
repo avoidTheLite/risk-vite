@@ -8,6 +8,7 @@ const WS_URL = "ws://localhost:8080";
 export default function useWebsocket() {
     const [gameState, setGameState] = useState<GameData | null>(null);
     const [openGames, setOpenGames] = useState<LoadGameData[]>([]);
+    const [savedGames, setSavedGames] = useState<LoadGameData[]>([]);
     const ws = useRef<WebSocket | null>(null);
 
     useEffect(() => {
@@ -27,9 +28,14 @@ export default function useWebsocket() {
                             setOpenGames(JSON.parse(event.data).data.gameSlots);
                             console.log(`open games: ${JSON.stringify(JSON.parse(event.data).data.gameSlots)}`);
                         } else {
+                            if (JSON.parse(event.data).data.action == "viewSavedGames"){
+                                setSavedGames(JSON.parse(event.data).data.savedGames);
+                                console.log(`saved games: ${JSON.stringify(JSON.parse(event.data).data.savedGames)}`);
+                            } else {
                             console.log(JSON.parse(event.data).data);
                             const newGameState: GameData = JSON.parse(event.data).data.gameState;
                             setGameState(newGameState);
+                            }
                         }
                     }
                 }
@@ -65,5 +71,5 @@ export default function useWebsocket() {
             setGameState(null);
         };
 
-        return { gameState, openGames, sendMessage, closeWebSocket };
+        return { gameState, openGames, savedGames, sendMessage, closeWebSocket };
 }

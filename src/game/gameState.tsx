@@ -27,7 +27,7 @@ import { LoadSavedGameButton } from "@/components/Buttons/LoadSavedGameButton";
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
 export default function GameState() {
-    const { gameState, openGames, sendMessage, closeWebSocket } = useWebsocket();
+    const { gameState, openGames, savedGames, sendMessage, closeWebSocket } = useWebsocket();
     const [countries, setCountries] = useState<Country[] | null>(null);
     const [turnData, setTurnData] = useState<Turn | null>(null)
     const [availableCommands, setAvailableCommands] = useState(initialAvailableCommands);
@@ -244,8 +244,17 @@ export default function GameState() {
         setNewGameDialogVisible(false);
     }
 
+    function refreshSavedGames() {
+        const viewSavedGamesMessage = {
+            action: "viewSavedGames" as WsActions,
+            message: "View Saved Games"
+        }
+        sendMessage(viewSavedGamesMessage);
+    }
+
     function loadGame() {
         setViewSavedGamesDialogVisible(true);
+        refreshSavedGames();
     }
 
     function confirmLoadGame(saveName: string) {
@@ -403,6 +412,8 @@ export default function GameState() {
                 />
                 <ViewSavedGamesDialog
                     isVisible={viewSavedGamesDialogVisible}
+                    savedGameData={savedGames}
+                    refreshSavedGames={refreshSavedGames}
                     confirmLoadGame={confirmLoadGame}
                     cancel={cancel}
                 />
@@ -460,6 +471,8 @@ export default function GameState() {
             />
             <ViewSavedGamesDialog
                     isVisible={viewSavedGamesDialogVisible}
+                    savedGameData={savedGames}
+                    refreshSavedGames={refreshSavedGames}
                     confirmLoadGame={confirmLoadGame}
                     cancel={cancel}
             />
