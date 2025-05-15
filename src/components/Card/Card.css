@@ -1,9 +1,8 @@
 @import "tailwindcss";
 
 .card {
-    @apply inline-block justify-center max-h-[40vh] w-auto m-2 p-2 border-1 border-(--accent) bg-(--card) drop-shadow-lg;
-}
-
-.card:hover {
-    @apply border-2 border-(--primary);
+    &.isSelected {
+        @apply border-2 border-(--border);
+    }
+    @apply inline-block justify-center max-h-[40vh] w-auto m-2 p-2 border-1 border-(--accent) bg-(--card) drop-shadow-lg hover:underline;
 }
