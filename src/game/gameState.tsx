@@ -312,6 +312,14 @@ export default function GameState() {
     }
 
     function submitCardMatch(selectedCards: CardData[]) {
+        const cardMatchMessage = {
+            action: "cardMatch" as WsActions,
+            message: "Card Match",
+            playerID: gameState!.activePlayerIndex,
+            saveName: gameState!.saveName,
+            cards: selectedCards
+        }
+        sendMessage(cardMatchMessage);
         setViewCardsDialogVisible(false);
     }
     function endTurn() {

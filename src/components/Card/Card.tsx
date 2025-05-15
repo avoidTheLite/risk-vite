@@ -7,12 +7,14 @@ import "./Card.css"
 
 interface CardProps {
     card: CardData
+    isSelected: boolean
+    selectCard: (id: number) => void
 }
 
-const Card: React.FC<CardProps> = ({ card }) => {
+const Card: React.FC<CardProps> = ({ card, isSelected, selectCard }) => {
     if (card.symbol === "wildcard") {
         return (
-            <div key={card.id} className="card">
+            <div key={card.id} className={`card ${isSelected ? "isSelected" : ""}`} onClick={() => selectCard(card.id)}>
                 <h2 className="text-1xl">Wild Card</h2>
                 <div className="w-[5vh]">
                     <img 
@@ -26,7 +28,7 @@ const Card: React.FC<CardProps> = ({ card }) => {
         )
     }
     return (
-        <div key={card.id} className="card">
+        <div key={card.id} className={`card ${isSelected ? "isSelected" : ""}`} onClick={() => selectCard(card.id)}>
             <h2 className="text-1xl">{card.name}</h2>
             <div className="w-[10vh]">
                 <img 
