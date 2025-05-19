@@ -25,7 +25,7 @@ const ConquerDialog: React.FC<ConquerDialogProps> = ({isVisible, confirmConquer,
     const [troopCount, setTroopCount] = useState(0);
 
     const incrementTroopCount = (count: number) => {
-        if (!countries || !attackingCountry) return;
+        if (!countries || attackingCountry == null) return;
         if (troopCount + count <= 0) {
             setTroopCount(1);
         } else if (troopCount + count >= countries[attackingCountry].armies - 1) {
@@ -37,7 +37,7 @@ const ConquerDialog: React.FC<ConquerDialogProps> = ({isVisible, confirmConquer,
     }
 
     useEffect(() => {
-            if (!countries || !attackingCountry) return;
+            if (!countries || attackingCountry == null) return;
             setTroopCount(countries[attackingCountry].armies-1);
     }, [isVisible])
 
