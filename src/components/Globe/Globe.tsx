@@ -57,56 +57,25 @@ const Globe: React.FC<GlobeProps> = ({turnData, players, countries, getClassName
                 </div>
                 
             </div>
-            <TransformWrapper 
-                initialScale={1}
-                minScale={1}
-                maxScale={5}
-                centerOnInit
-                limitToBounds
-                smooth={false}
-                wheel={{ wheelDisabled: true }}
-                pinch={{ step: 0.1 }}
-                doubleClick={{ disabled: false }}
-                panning={{ velocityDisabled: true }}
-            >
-                <div className="flex justify-between">
-                    <MiniMap
-                        width={100}
-                        height={75}
-                        borderColor="#888"
-                        >
-                        <GameMap countries={countries}
-                            activePlayerIndex={turnData.activePlayerIndex}
-                            getClassName={getClassName}
-                            highlightTargets={highlightTargets}
-                            clearTargets={clearTargets}
-                            updateCountries={updateCountries}
-                            initiateAttack={initiateAttack}
-                            initiateMove={initiateMove} 
-                        />
-                    </MiniMap>
-                    <Controls />
-                    <ViewCardsButton 
-                        viewCards={viewCards}
-                        playerID={turnData.activePlayerIndex}
-                        playerCards={playerCards} />
-                    <EndTurnButton endTurn={endTurn} />
-                </div>
-                <div className="mt-1 mb-1 border-accent border-2">
-                    <TransformComponent>
-                        <GameMap
-                            countries={countries}
-                            activePlayerIndex={turnData.activePlayerIndex}
-                            getClassName={getClassName}
-                            highlightTargets={highlightTargets}
-                            clearTargets={clearTargets}
-                            updateCountries={updateCountries}
-                            initiateAttack={initiateAttack}
-                            initiateMove={initiateMove} 
-                            />
-                    </TransformComponent>
-                </div>
-            </TransformWrapper>
+            <div className="flex justify-between">
+                <ViewCardsButton 
+                    viewCards={viewCards}
+                    playerID={turnData.activePlayerIndex}
+                    playerCards={playerCards} />
+                <EndTurnButton endTurn={endTurn} />
+            </div>
+            <div className="mt-1 mb-1 border-accent border-2">
+                <GameMap
+                    countries={countries}
+                    activePlayerIndex={turnData.activePlayerIndex}
+                    getClassName={getClassName}
+                    highlightTargets={highlightTargets}
+                    clearTargets={clearTargets}
+                    updateCountries={updateCountries}
+                    initiateAttack={initiateAttack}
+                    initiateMove={initiateMove} 
+                />
+            </div>
         </div>
     )
 }
