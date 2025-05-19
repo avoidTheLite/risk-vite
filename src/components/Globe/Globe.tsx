@@ -4,8 +4,6 @@ import GameMap from "./GameMap";
 import { Turn, Player } from "../../common/types";
 import "./Globe.css"
 import EndTurnButton from "../Buttons/EndTurnButton";
-import { Button } from "@/components/ui/button";
-import { TransformWrapper, TransformComponent, MiniMap, useControls } from "react-zoom-pan-pinch";
 import ViewCardsButton from "../Buttons/ViewCardsButton";
 import { CardData } from "../../common/types";
 
@@ -32,17 +30,6 @@ interface GlobeProps {
     viewCards: (playerID: number) => void
     playerCards: CardData[]
 }
-const Controls = () => {
-    const { zoomIn, zoomOut, resetTransform } = useControls();
-  
-    return (
-      <div>
-        <Button size="sm" onClick={() => zoomIn()}>Zoom In</Button>
-        <Button size="sm" onClick={() => zoomOut()}>Zoom Out</Button>
-        <Button size="sm" onClick={() => resetTransform()}>Reset Zoom</Button>
-      </div>
-    );
-  };
     
 const Globe: React.FC<GlobeProps> = ({turnData, players, countries, getClassName, clearTargets, highlightTargets, updateCountries, initiateAttack, initiateMove, endTurn, viewCards, playerCards}) => {
     return (
