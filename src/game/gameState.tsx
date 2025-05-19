@@ -288,7 +288,11 @@ export default function GameState() {
     }
 
     function confirmQuitGame() {
-        closeWebSocket();
+        const quitGameMessage = {
+            action: "quitGame" as WsActions,
+            message: "Quit Game",
+        }
+        sendMessage(quitGameMessage);
         setQuitGameDialogVisible(false);
     }
 
