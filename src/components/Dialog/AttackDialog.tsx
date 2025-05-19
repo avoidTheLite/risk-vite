@@ -25,7 +25,7 @@ const AttackDialog: React.FC<AttackDialogProps> = ({isVisible, confirmAttack, ca
     const [troopCount, setTroopCount] = useState(0);
 
     const incrementTroopCount = (count: number) => {
-        if (!countries || !attackingCountry) return;
+        if (!countries || attackingCountry == null) return;
         if (troopCount + count <= 0) {
             setTroopCount(1);
         } else if (troopCount + count >= countries[attackingCountry].armies - 1) {
@@ -37,7 +37,7 @@ const AttackDialog: React.FC<AttackDialogProps> = ({isVisible, confirmAttack, ca
     }
 
     useEffect(() => {
-        if (!countries || !attackingCountry) return;
+        if (!countries || attackingCountry == null) return;
         if (countries[attackingCountry].armies > 3) {
             setTroopCount(3);
         } else {
