@@ -9,6 +9,7 @@ export default function useWebsocket() {
     const [gameState, setGameState] = useState<GameData | null>(null);
     const [openGames, setOpenGames] = useState<LoadGameData[]>([]);
     const [savedGames, setSavedGames] = useState<LoadGameData[]>([]);
+    const [updateMessage, setUpdateMessage] = useState<string | null>(null);
     const ws = useRef<WebSocket | null>(null);
 
     useEffect(() => {
@@ -38,6 +39,7 @@ export default function useWebsocket() {
                             }
                         }
                     }
+                    setUpdateMessage(JSON.parse(event.data).data.message);
                 }
             };
 
@@ -71,5 +73,5 @@ export default function useWebsocket() {
             setGameState(null);
         };
 
-        return { gameState, openGames, savedGames, sendMessage, closeWebSocket };
+        return { gameState, openGames, savedGames, updateMessage, setUpdateMessage, sendMessage, closeWebSocket };
 }
