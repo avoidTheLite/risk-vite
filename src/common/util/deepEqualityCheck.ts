@@ -1,6 +1,6 @@
 import { Player, Turn } from "../../common/types";
 import Globe from "../../components/Globe/Globe";
-import Country from "../../components/Country/Country";
+import { type Country } from "../../components/Globe/GameMap";
 
 
 function isEqualTurn(a: Turn, b: Turn) {
@@ -23,9 +23,8 @@ function isEqualCountries(a: Country[], b: Country[]) {
             a[i].id !== b[i].id ||
             a[i].ownerID !== b[i].ownerID ||
             a[i].color !== b[i].color ||
-            a[i].armies !== b[i].armies //||
-            // a[i].isSelected !== b[i].isSelected ||
-            // a[i].isTargetable !== b[i].isTargetable
+            a[i].armies !== b[i].armies ||
+            a[i].isSelectable !== b[i].isSelectable
         ) {
             console.log(`Countries are not equal at index ${i}: ${JSON.stringify(a[i])} !== ${JSON.stringify(b[i])}`)
             return false
