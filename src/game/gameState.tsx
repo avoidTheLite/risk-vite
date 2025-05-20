@@ -27,7 +27,7 @@ import { LoadSavedGameButton } from "@/components/Buttons/LoadSavedGameButton";
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
 export default function GameState() {
-    const { gameState, openGames, savedGames, updateMessage,sendMessage, closeWebSocket } = useWebsocket();
+    const { gameState, openGames, savedGames, updateMessage, setGameState, sendMessage, closeWebSocket } = useWebsocket();
     const [countries, setCountries] = useState<Country[] | null>(null);
     const [turnData, setTurnData] = useState<Turn | null>(null)
     const [availableCommands, setAvailableCommands] = useState(initialAvailableCommands);
@@ -288,6 +288,8 @@ export default function GameState() {
     }
 
     function confirmQuitGame() {
+        console.log('quitting game')
+        setGameState(null);
         const quitGameMessage = {
             action: "quitGame" as WsActions,
             message: "Quit Game",
