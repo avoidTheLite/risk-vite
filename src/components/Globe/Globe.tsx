@@ -6,6 +6,7 @@ import "./Globe.css"
 import EndTurnButton from "../Buttons/EndTurnButton";
 import ViewCardsButton from "../Buttons/ViewCardsButton";
 import { CardData } from "../../common/types";
+import UpdateMessage from "./UpdateMessage";
 
 interface Globe {
     id: string;
@@ -20,6 +21,7 @@ interface GlobeProps {
     turnData: Turn;
     players: Player[];
     countries: Country[];
+    updateMessage: string | null;
     getClassName: (id: number) => string;
     highlightTargets: (id: number ) => Country[];
     clearTargets: () => Country[];
@@ -31,16 +33,17 @@ interface GlobeProps {
     playerCards: CardData[]
 }
     
-const Globe: React.FC<GlobeProps> = ({turnData, players, countries, getClassName, clearTargets, highlightTargets, updateCountries, initiateAttack, initiateMove, endTurn, viewCards, playerCards}) => {
+const Globe: React.FC<GlobeProps> = ({turnData, players, countries, updateMessage, getClassName, clearTargets, highlightTargets, updateCountries, initiateAttack, initiateMove, endTurn, viewCards, playerCards}) => {
     return (
         <div className="globe-container">
             <div className="globe-info-and-controls">
                 <div className="globe-info">
-                    <span className="globe-content">
-                        <span className = "active-player">
-                            It is {players[turnData.activePlayerIndex].name}'s turn. (Player {players[turnData.activePlayerIndex].id})
-                        </span>
+                    <span className = "active-player">
+                        It is {players[turnData.activePlayerIndex].name}'s turn. (Player {players[turnData.activePlayerIndex].id})
                     </span>
+                </div>
+                <div>
+                    <UpdateMessage message={updateMessage} />
                 </div>
                 
             </div>

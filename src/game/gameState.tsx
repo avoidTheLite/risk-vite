@@ -27,7 +27,7 @@ import { LoadSavedGameButton } from "@/components/Buttons/LoadSavedGameButton";
 const initialAvailableCommands = mockAvailableCommands.data.availableComands
 
 export default function GameState() {
-    const { gameState, openGames, savedGames, sendMessage, closeWebSocket } = useWebsocket();
+    const { gameState, openGames, savedGames, updateMessage,sendMessage, closeWebSocket } = useWebsocket();
     const [countries, setCountries] = useState<Country[] | null>(null);
     const [turnData, setTurnData] = useState<Turn | null>(null)
     const [availableCommands, setAvailableCommands] = useState(initialAvailableCommands);
@@ -457,7 +457,7 @@ export default function GameState() {
                     Game Phase: {turnData.phase} <br/>
                 </div>
                 <div className="globe-info">
-                    <span className="globe-content">
+                    <span className="text-left">
                         <div>
                         Turn: {turnData.turn} ({turnData.turnTracker.phase})<br/>
                         </div>
@@ -516,6 +516,7 @@ export default function GameState() {
                 endTurn={endTurn} 
                 viewCards={viewCards}
                 playerCards={playerCards}
+                updateMessage={updateMessage}
             />
             <div>
             <DeployDialog

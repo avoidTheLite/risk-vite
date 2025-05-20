@@ -1,6 +1,9 @@
 .active-player{
     font-weight: bold;
     font-weight: 600;
+    font-size: large;
+    text-align: left;
+    padding: 0.5rem;
 }
 
 .globe {
@@ -8,10 +11,6 @@
     justify-content: center;
     align-self: center;
     align-items: center;
-}
-
-.globe-content{
-    text-align: left;
 }
 
 
