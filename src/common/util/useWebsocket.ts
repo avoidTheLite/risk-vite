@@ -73,5 +73,5 @@ export default function useWebsocket() {
             setGameState(null);
         };
 
-        return { gameState, openGames, savedGames, updateMessage, setUpdateMessage, sendMessage, closeWebSocket };
+        return { gameState, openGames, savedGames, updateMessage, setGameState, setUpdateMessage, sendMessage, closeWebSocket };
 }
