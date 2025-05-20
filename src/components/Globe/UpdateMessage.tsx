@@ -14,8 +14,12 @@ const UpdateMessage: React.FC<UpdateMessageProps> = ({ message }) => {
     }
 
     useEffect(() => {
+        setIsVisible(false);
+        
         if (message) {
-            setIsVisible(true);
+            setTimeout(() => {
+                setIsVisible(true);
+            }, 100)
         }
     }, [message]);
 
