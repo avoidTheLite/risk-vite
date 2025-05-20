@@ -31,12 +31,12 @@
       fill: deeppink;
     }
     &.isSelected{
-      border-color: #646cff;
-      fill: #0f3f39;
+      stroke: var(--color-chart-2);
+      stroke-width: 3;
     }
     &.isTargetable{
-      border-color: #faff64;
-      fill: #000000;
+      stroke-width: 2;
+      stroke: var(--color-chart-4);
     }
 }
 
@@ -67,9 +67,15 @@ svg, g, path {
   position: static;
 }
 
-.country:hover {
-  stroke: #646cff;
-  stroke-width: 3;
+.country {
+  &.isSelectable:hover{
+    stroke: var(--color-border);
+    stroke-width: 3;
+  }
+  &.isTargetable:hover{
+    stroke-width: 3;
+    stroke: var(--color-border);
+  }
 }
 
 .responsive-svg {

@@ -4,7 +4,8 @@ import './GameMap.css'
 
 export interface Country extends CountryData {
   isSelected: boolean;
-  isTargetable: boolean
+  isSelectable: boolean;
+  isTargetable: boolean;
 }
 
 interface GameMapProps {

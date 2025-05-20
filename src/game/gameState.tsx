@@ -343,6 +343,7 @@ export default function GameState() {
         const country = countries.find(c => c.id === id);
         if (!country) return "country";
         let base = `country ${country.color}`;
+        if (country.isSelectable) base += " isSelectable";
         if (country.isSelected) base += " isSelected";
         else if (country.isTargetable) base += " isTargetable";
         return base;
@@ -364,9 +365,6 @@ export default function GameState() {
     useEffect(() => {
         
         if (!gameState || !gameState.countries) return;
-        const newCountries: Country[] = gameState.countries.map((country: CountryData) => 
-            transformCountry(country)  
-        );
         const newTurnData: Turn = {
             turn: {...gameState}.turn,
             turnTracker: {...gameState.turnTracker},
@@ -374,6 +372,16 @@ export default function GameState() {
             activePlayerIndex: {...gameState}.activePlayerIndex,
         }
         const newPlayers = {...gameState.players};
+        if (!turnData || !isEqualTurn(turnData, newTurnData)) {
+            setTurnData({...newTurnData});
+        } 
+        if (!turnData) return;
+        const newCountries: Country[] = gameState.countries.map((country: CountryData) => 
+            transformCountry(country, gameState.activePlayerIndex, turnData)
+        );
+        if (!countries || !isEqualCountries(newCountries, countries)) {
+            setCountries([...newCountries]);
+        } 
         const newGlobe: Globe = {
             id: gameState.globeID,
             name: 'Earth',
@@ -382,12 +390,6 @@ export default function GameState() {
             players: newPlayers,
             countries: newCountries
         }
-        if (!turnData || !isEqualTurn(turnData, newTurnData)) {
-            setTurnData({...newTurnData});
-        } 
-        if (!countries || !isEqualCountries(newCountries, countries)) {
-            setCountries([...newCountries]);
-            } 
         if (!globe || !isEqualGlobe(globe, newGlobe)) {
             setGlobe(newGlobe);
         }
